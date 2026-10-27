@@ -92,7 +92,7 @@ flowchart TD
     Acc --> Audit
     Risk --> Audit
     
-    Audit --> Outputs["Final Binding Annexes:\n• ANEXO_1_SOW.md\n• ANEXO_2_RACI_PRE_REQUISITOS.md\n• ANEXO_3_PROTOCOLO_HOMOLOGACAO.md\n• ANEXO_4_CHANGE_REQUEST.md\n• ANEXO_5_GARANTIA_SLA.md\n• AUDITORIA_CONSISTENCIA_ANEXOS.md"]
+    Audit --> Outputs["Final Binding Annexes:\n• ANEXO_1_SOW.md\n• ANEXO_2_RACI_PRE_REQUISITOS.md\n• ANEXO_3_PROTOCOLO_HOMOLOGACAO.md\n• ANEXO_4_CHANGE_REQUEST.md\n• ANEXO_5_GARANTIA_SLA.md\n• ANEXO_TECNICO_MESTRE_CONTRATO.md"]
 ```
 
 ---

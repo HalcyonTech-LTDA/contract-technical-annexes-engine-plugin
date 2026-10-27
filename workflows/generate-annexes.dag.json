@@ -19,8 +19,8 @@
       "name": "Ingestion & Contract Baseline Normalization",
       "agent": "agents/ingestion-normalizer.json",
       "depends_on": [],
-      "inputs": ["dossier_path", "contract_variables"],
-      "outputs": ["normalized_contract_baseline"],
+      "inputs": ["dossier_path", "contract_params"],
+      "outputs": ["normalized_project_baseline.json"],
       "rules": [
         "rules/contract-engineering-standards.md",
         "rules/legal-technical-boundaries.md"
@@ -31,7 +31,7 @@
       "name": "SOW Architecture & Noun-based Scope Formulation",
       "agent": "agents/sow-architect.json",
       "depends_on": ["stage0_ingestion_normalization"],
-      "inputs": ["normalized_contract_baseline"],
+      "inputs": ["normalized_project_baseline.json"],
       "outputs": ["ANEXO_1_SOW.md"],
       "template": "templates/ANEXO_1_SOW.template.md",
       "rules": [
@@ -44,7 +44,7 @@
       "name": "Client Governance & Bilateral Obligations Specification",
       "agent": "agents/client-governance-drafter.json",
       "depends_on": ["stage0_ingestion_normalization"],
-      "inputs": ["normalized_contract_baseline"],
+      "inputs": ["normalized_project_baseline.json"],
       "outputs": ["ANEXO_2_RACI_PRE_REQUISITOS.md"],
       "template": "templates/ANEXO_2_RACI_PRE_REQUISITOS.template.md",
       "rules": [
@@ -57,7 +57,7 @@
       "name": "Acceptance Protocol & Binary Defect Classification",
       "agent": "agents/acceptance-policy-drafter.json",
       "depends_on": ["stage0_ingestion_normalization", "stage1_sow_architecture"],
-      "inputs": ["normalized_contract_baseline", "ANEXO_1_SOW.md"],
+      "inputs": ["normalized_project_baseline.json", "ANEXO_1_SOW.md"],
       "outputs": ["ANEXO_3_PROTOCOLO_HOMOLOGACAO.md"],
       "template": "templates/ANEXO_3_PROTOCOLO_HOMOLOGACAO.template.md",
       "rules": [
@@ -70,7 +70,7 @@
       "name": "Change Request Protocol & Warranty/SLA Demarcation",
       "agent": "agents/risk-maintenance-drafter.json",
       "depends_on": ["stage0_ingestion_normalization", "stage1_sow_architecture", "stage3_acceptance_policy"],
-      "inputs": ["normalized_contract_baseline", "ANEXO_1_SOW.md", "ANEXO_3_PROTOCOLO_HOMOLOGACAO.md"],
+      "inputs": ["normalized_project_baseline.json", "ANEXO_1_SOW.md", "ANEXO_3_PROTOCOLO_HOMOLOGACAO.md"],
       "outputs": ["ANEXO_4_CHANGE_REQUEST.md", "ANEXO_5_GARANTIA_SLA.md"],
       "templates": [
         "templates/ANEXO_4_CHANGE_REQUEST.template.md",
@@ -92,14 +92,14 @@
         "stage4_risk_maintenance"
       ],
       "inputs": [
-        "dossier_path",
+        "normalized_project_baseline.json",
         "ANEXO_1_SOW.md",
         "ANEXO_2_RACI_PRE_REQUISITOS.md",
         "ANEXO_3_PROTOCOLO_HOMOLOGACAO.md",
         "ANEXO_4_CHANGE_REQUEST.md",
         "ANEXO_5_GARANTIA_SLA.md"
       ],
-      "outputs": ["AUDITORIA_CONSISTENCIA_ANEXOS.md"],
+      "outputs": ["ANEXO_TECNICO_MESTRE_CONTRATO.md"],
       "rules": [
         "rules/contract-engineering-standards.md",
         "rules/legal-technical-boundaries.md"
