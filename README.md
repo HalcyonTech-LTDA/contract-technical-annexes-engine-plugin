@@ -18,7 +18,7 @@
 
 ## 1. Overview & Strategic Mission
 
-The **Contract Technical Annexes Engine Plugin** (`contract-technical-annexes-engine-plugin`) is an enterprise-grade agentic customization for Google Antigravity. It is engineered to bridge the high-risk operational boundary between pre-sales engineering and formal legal execution in custom software development.
+The **Contract Technical Annexes Engine Plugin** (`contract-technical-annexes-engine`) is an enterprise-grade agentic customization for Google Antigravity. It is engineered to bridge the high-risk operational boundary between pre-sales engineering and formal legal execution in custom software development.
 
 By ingesting the consolidated pre-sales engineering dossier (`DOSSIE_TECNICO_PRE_PROPOSTA.md`) produced by upstream discovery engines, this plugin orchestrates a specialized multi-agent pipeline governed by a Directed Acyclic Graph (DAG) with cross-consistency auditing. It automatically drafts the complete set of **5 Binding Technical Contract Annexes (Bloco 1)**:
 
@@ -43,7 +43,7 @@ By ingesting the consolidated pre-sales engineering dossier (`DOSSIE_TECNICO_PRE
 ## 3. Directory Structure
 
 ```
-contract-technical-annexes-engine-plugin/
+contract-technical-annexes-engine/
 ├── plugin.json
 ├── README.md
 ├── LICENSE
@@ -51,13 +51,16 @@ contract-technical-annexes-engine-plugin/
 ├── rules/
 │   ├── contract-engineering-standards.md
 │   └── legal-technical-boundaries.md
+├── skills/
+│   └── contract-annexes-orchestrator/
+│       └── SKILL.md
 ├── agents/
-│   ├── ingestion-normalizer.json
-│   ├── sow-architect.json
-│   ├── client-governance-drafter.json
-│   ├── acceptance-policy-drafter.json
-│   ├── risk-maintenance-drafter.json
-│   └── cross-auditor.json
+│   ├── ingestion-normalizer.md
+│   ├── sow-architect.md
+│   ├── client-governance-drafter.md
+│   ├── acceptance-policy-drafter.md
+│   ├── risk-maintenance-drafter.md
+│   └── cross-auditor.md
 ├── workflows/
 │   └── generate-annexes.dag.json
 └── templates/
@@ -76,15 +79,15 @@ The pipeline executes via a deterministic Directed Acyclic Graph (DAG) with para
 
 ```mermaid
 flowchart TD
-    Dossier["Input Dossier\n(DOSSIE_TECNICO_PRE_PROPOSTA.md)"] --> Step1["Step 1: Ingestion & Normalizer\n(ingestion-normalizer.json)"]
+    Dossier["Input Dossier\n(DOSSIE_TECNICO_PRE_PROPOSTA.md)"] --> Step1["Step 1: Ingestion & Normalizer\n(ingestion-normalizer.md)"]
     Params["Contract Params\n(contract_params)"] --> Step1
     
     Step1 --> Baseline["normalized_project_baseline.json"]
     
-    Baseline --> Step2a["Step 2a: SOW Architect\n(sow-architect.json)"]
-    Baseline --> Step2b["Step 2b: Client Governance Drafter\n(client-governance-drafter.json)"]
-    Baseline --> Step2c["Step 2c: Acceptance Policy Drafter\n(acceptance-policy-drafter.json)"]
-    Baseline --> Step2d["Step 2d: Risk & SLA Drafter\n(risk-maintenance-drafter.json)"]
+    Baseline --> Step2a["Step 2a: SOW Architect\n(sow-architect.md)"]
+    Baseline --> Step2b["Step 2b: Client Governance Drafter\n(client-governance-drafter.md)"]
+    Baseline --> Step2c["Step 2c: Acceptance Policy Drafter\n(acceptance-policy-drafter.md)"]
+    Baseline --> Step2d["Step 2d: Risk & SLA Drafter\n(risk-maintenance-drafter.md)"]
     
     Step2a --> A1["ANEXO_1_SOW.md"]
     Step2b --> A2["ANEXO_2_RACI_PRE_REQUISITOS.md"]
@@ -92,7 +95,7 @@ flowchart TD
     Step2d --> A4["ANEXO_4_CHANGE_REQUEST.md"]
     Step2d --> A5["ANEXO_5_GARANTIA_SLA.md"]
     
-    Baseline --> Step3["Step 3: Cross-Auditor & Bundle\n(cross-auditor.json)"]
+    Baseline --> Step3["Step 3: Cross-Auditor & Bundle\n(cross-auditor.md)"]
     A1 --> Step3
     A2 --> Step3
     A3 --> Step3
@@ -166,13 +169,16 @@ mkdir -p ~/.gemini/config/plugins/contract-technical-annexes-engine-plugin
 cp -r ./* ~/.gemini/config/plugins/contract-technical-annexes-engine-plugin/
 ```
 
-### 6.2 Execução via Linha de Comando (CLI)
+### 6.2 Invocação Nativa via Slash Command
 
-Execute o comando registrado no manifesto `plugin.json`:
+Com o plugin habilitado, execute diretamente na caixa de chat do Antigravity:
 
 ```bash
-contract:generate-annexes dossier_path="DOSSIE_TECNICO_PRE_PROPOSTA.md" output_dir="./anexos_contratuais"
+/contract-generate-annexes dossier_path="DOSSIE_TECNICO_PRE_PROPOSTA.md" output_dir="./anexos_contratuais"
 ```
+
+Ou via invocação semântica contextual:
+> *"Gere os anexos técnicos do contrato a partir do arquivo DOSSIE_TECNICO_PRE_PROPOSTA.md"*
 
 ### 6.3 Parâmetros de Execução
 

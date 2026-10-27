@@ -2,11 +2,11 @@
   "$schema": "https://antigravity.ai/schemas/dag-workflow.v1.json",
   "id": "generate-technical-annexes-workflow",
   "name": "Generate Technical Contract Annexes Pipeline",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "nodes": [
     {
       "id": "step_1_ingestion",
-      "agent": "agents/ingestion-normalizer.json",
+      "agent": "agents/ingestion-normalizer.md",
       "inputs": {
         "dossier": "{{args.dossier_path}}",
         "params": "{{args.contract_params}}"
@@ -15,7 +15,7 @@
     },
     {
       "id": "step_2a_sow",
-      "agent": "agents/sow-architect.json",
+      "agent": "agents/sow-architect.md",
       "depends_on": ["step_1_ingestion"],
       "inputs": {
         "baseline": "normalized_project_baseline.json",
@@ -25,7 +25,7 @@
     },
     {
       "id": "step_2b_raci",
-      "agent": "agents/client-governance-drafter.json",
+      "agent": "agents/client-governance-drafter.md",
       "depends_on": ["step_1_ingestion"],
       "inputs": {
         "baseline": "normalized_project_baseline.json",
@@ -35,7 +35,7 @@
     },
     {
       "id": "step_2c_acceptance",
-      "agent": "agents/acceptance-policy-drafter.json",
+      "agent": "agents/acceptance-policy-drafter.md",
       "depends_on": ["step_1_ingestion"],
       "inputs": {
         "baseline": "normalized_project_baseline.json",
@@ -45,7 +45,7 @@
     },
     {
       "id": "step_2d_risk_sla",
-      "agent": "agents/risk-maintenance-drafter.json",
+      "agent": "agents/risk-maintenance-drafter.md",
       "depends_on": ["step_1_ingestion"],
       "inputs": {
         "baseline": "normalized_project_baseline.json",
@@ -59,7 +59,7 @@
     },
     {
       "id": "step_3_audit_and_bundle",
-      "agent": "agents/cross-auditor.json",
+      "agent": "agents/cross-auditor.md",
       "depends_on": [
         "step_2a_sow",
         "step_2b_raci",
