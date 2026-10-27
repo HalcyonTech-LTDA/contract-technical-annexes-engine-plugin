@@ -1,0 +1,39 @@
+{
+  "$schema": "https://antigravity.ai/schemas/plugin.v1.json",
+  "name": "contract-technical-annexes-engine-plugin",
+  "version": "1.0.0",
+  "description": "Pipeline multiagente para geração de anexos técnicos vinculantes (SOW, RACI, Homologação, CR e SLA) para contratos de software a partir de dossiês de pré-venda.",
+  "type": "global",
+  "author": "Engineering Architecture Office",
+  "entrypoint": "workflows/generate-annexes.dag.json",
+  "capabilities": [
+    "workspace:read",
+    "workspace:write",
+    "multi-agent-dag-execution"
+  ],
+  "commands": [
+    {
+      "name": "contract:generate-annexes",
+      "description": "Executa o pipeline DAG de geração dos 5 anexos contratuais de engenharia.",
+      "workflow": "workflows/generate-annexes.dag.json",
+      "args": {
+        "dossier_path": {
+          "type": "string",
+          "required": true,
+          "default": "DOSSIE_TECNICO_PRE_PROPOSTA.md",
+          "description": "Caminho do dossiê técnico consolidado da pré-venda."
+        },
+        "output_dir": {
+          "type": "string",
+          "required": false,
+          "default": "./anexos_contratuais",
+          "description": "Diretório de destino dos artefatos Markdown gerados."
+        }
+      }
+    }
+  ],
+  "rules": [
+    "rules/contract-engineering-standards.md",
+    "rules/legal-technical-boundaries.md"
+  ]
+}

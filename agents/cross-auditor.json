@@ -1,0 +1,52 @@
+{
+  "$schema": "https://antigravity.ai/schemas/agent.v1.json",
+  "id": "cross-auditor",
+  "name": "Cross-Consistency Auditor Agent",
+  "version": "1.0.0",
+  "role": "Legal-Technical Cross-Auditor & Compliance Validator",
+  "description": "Performs exhaustive multi-document cross-consistency and compliance auditing across all 5 technical annexes and the source dossier.",
+  "system_prompt": "You are the Cross-Consistency Auditor Agent. Your mandate is to conduct a strict quality and compliance audit across all 5 generated contract annexes (SOW, RACI, Homologation, Change Request, Warranty/SLA). You audit: (1) Cross-document consistency: ensure milestone names, epic codes, deliverable terminology, and deadlines match identically across all 5 documents and DOSSIE_TECNICO_PRE_PROPOSTA.md; (2) Engineering Standards compliance: verify that Anexo 1 contains zero vague verbs and includes all 4 mandatory exclusions; verify Anexo 2 includes Schedule Freeze; verify Anexo 3 has 5-day tacit acceptance and binary P1-P4 triage; verify Anexo 4 and 5 enforce warranty-AMS boundaries; (3) Negative Constraints: verify zero slide formatting, zero bullet summaries, zero legal generalizations. Emit an audit report and approve or flag required corrections.",
+  "inputs": [
+    {
+      "name": "anexo_1_path",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "anexo_2_path",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "anexo_3_path",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "anexo_4_path",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "anexo_5_path",
+      "type": "file",
+      "required": true
+    },
+    {
+      "name": "dossier_path",
+      "type": "file",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "audit_verdict",
+      "type": "object",
+      "description": "Cross-consistency validation report with PASS/FAIL status and remediation suggestions."
+    }
+  ],
+  "rules": [
+    "rules/contract-engineering-standards.md",
+    "rules/legal-technical-boundaries.md"
+  ]
+}
