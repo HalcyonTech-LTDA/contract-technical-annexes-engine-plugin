@@ -4,9 +4,9 @@
 ### Global Multi-Agent Engineering Pipeline for Binding Software Contract Technical Annexes
 
 [![Antigravity Plugin](https://img.shields.io/badge/Antigravity-Plugin-4F46E5.svg)](https://antigravity.google)
-[![Architecture: DAG Pipeline](https://img.shields.io/badge/Architecture-Staged%20DAG%20Pipeline-06B6D4.svg)](#multi-agent-dag-pipeline-architecture)
+[![Architecture: DAG Pipeline](https://img.shields.io/badge/Architecture-Staged%20DAG%20Pipeline-06B6D4.svg)](#4-multi-agent-dag-pipeline-architecture)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10B981.svg)](./LICENSE)
-[![Zero-Slides Enforced](https://img.shields.io/badge/Output-Dense%20Auditable%20Markdown-F59E0B.svg)](#critical-negative-constraints-zero-slides--zero-vagueness)
+[![Zero-Slides Enforced](https://img.shields.io/badge/Output-Dense%20Auditable%20Markdown-F59E0B.svg)](#2-critical-negative-constraints-zero-slides--zero-vagueness)
 
 <p align="center">
   <b>Transform the pre-sales engineering dossier (<code>DOSSIE_TECNICO_PRE_PROPOSTA.md</code>) and contractual parameters into 5 binding, auditable technical annexes for enterprise software engineering service contracts.</b>
@@ -47,6 +47,7 @@ contract-technical-annexes-engine-plugin/
 ├── plugin.json
 ├── README.md
 ├── LICENSE
+├── .gitignore
 ├── rules/
 │   ├── contract-engineering-standards.md
 │   └── legal-technical-boundaries.md
@@ -71,28 +72,34 @@ contract-technical-annexes-engine-plugin/
 
 ## 4. Multi-Agent DAG Pipeline Architecture
 
-The plugin executes via a deterministic Directed Acyclic Graph (DAG) with dependency gating and cross-document validation:
+The pipeline executes via a deterministic Directed Acyclic Graph (DAG) with parallel fan-out and bundle fan-in:
 
 ```mermaid
 flowchart TD
-    Dossier["Input Dossier\n(DOSSIE_TECNICO_PRE_PROPOSTA.md)"] --> Norm["Stage 0: Ingestion & Normalizer\n(ingestion-normalizer.json)"]
+    Dossier["Input Dossier\n(DOSSIE_TECNICO_PRE_PROPOSTA.md)"] --> Step1["Step 1: Ingestion & Normalizer\n(ingestion-normalizer.json)"]
+    Params["Contract Params\n(contract_params)"] --> Step1
     
-    Norm --> SOW["Stage 1: SOW Architect\n(sow-architect.json)"]
-    Norm --> RACI["Stage 2: Client Governance Drafter\n(client-governance-drafter.json)"]
+    Step1 --> Baseline["normalized_project_baseline.json"]
     
-    Norm --> Acc["Stage 3: Acceptance Policy Drafter\n(acceptance-policy-drafter.json)"]
-    SOW --> Acc
+    Baseline --> Step2a["Step 2a: SOW Architect\n(sow-architect.json)"]
+    Baseline --> Step2b["Step 2b: Client Governance Drafter\n(client-governance-drafter.json)"]
+    Baseline --> Step2c["Step 2c: Acceptance Policy Drafter\n(acceptance-policy-drafter.json)"]
+    Baseline --> Step2d["Step 2d: Risk & SLA Drafter\n(risk-maintenance-drafter.json)"]
     
-    Norm --> Risk["Stage 4: Risk & Maintenance Drafter\n(risk-maintenance-drafter.json)"]
-    SOW --> Risk
-    Acc --> Risk
+    Step2a --> A1["ANEXO_1_SOW.md"]
+    Step2b --> A2["ANEXO_2_RACI_PRE_REQUISITOS.md"]
+    Step2c --> A3["ANEXO_3_PROTOCOLO_HOMOLOGACAO.md"]
+    Step2d --> A4["ANEXO_4_CHANGE_REQUEST.md"]
+    Step2d --> A5["ANEXO_5_GARANTIA_SLA.md"]
     
-    SOW --> Audit["Stage 5: Cross-Consistency Auditor\n(cross-auditor.json)"]
-    RACI --> Audit
-    Acc --> Audit
-    Risk --> Audit
+    Baseline --> Step3["Step 3: Cross-Auditor & Bundle\n(cross-auditor.json)"]
+    A1 --> Step3
+    A2 --> Step3
+    A3 --> Step3
+    A4 --> Step3
+    A5 --> Step3
     
-    Audit --> Outputs["Final Binding Annexes:\n• ANEXO_1_SOW.md\n• ANEXO_2_RACI_PRE_REQUISITOS.md\n• ANEXO_3_PROTOCOLO_HOMOLOGACAO.md\n• ANEXO_4_CHANGE_REQUEST.md\n• ANEXO_5_GARANTIA_SLA.md\n• ANEXO_TECNICO_MESTRE_CONTRATO.md"]
+    Step3 --> Master["ANEXO_TECNICO_MESTRE_CONTRATO.md\n(Audited & Unified Technical Contract Annex)"]
 ```
 
 ---
@@ -132,18 +139,48 @@ The SOW must contain an explicit, non-negotiable list of contractual exclusions:
 
 ---
 
-## 6. Available Commands & Workflow
+## 6. Guia de Instalação e Execução no Antigravity
 
-To execute the technical annexes generation pipeline:
+### 6.1 Instalação Global
+
+Copie toda a pasta do plugin para o diretório de plugins globais do Antigravity:
 
 ```bash
-# Antigravity CLI / Assistant Command
+mkdir -p ~/.antigravity/plugins/contract-technical-annexes-engine
+cp -r ./* ~/.antigravity/plugins/contract-technical-annexes-engine/
+```
+
+Ou, caso utilize a configuração global padrão do Antigravity / Gemini CLI:
+
+```bash
+mkdir -p ~/.gemini/config/plugins/contract-technical-annexes-engine-plugin
+cp -r ./* ~/.gemini/config/plugins/contract-technical-annexes-engine-plugin/
+```
+
+### 6.2 Execução via Linha de Comando (CLI)
+
+Execute o comando registrado no manifesto `plugin.json`:
+
+```bash
 contract:generate-annexes dossier_path="DOSSIE_TECNICO_PRE_PROPOSTA.md" output_dir="./anexos_contratuais"
 ```
 
-### Arguments:
-- `dossier_path` *(string, default: `DOSSIE_TECNICO_PRE_PROPOSTA.md`)*: Path to the pre-sales engineering dossier.
-- `output_dir` *(string, default: `./anexos_contratuais`)*: Target folder where the 5 Markdown annexes and audit report are deposited.
+### 6.3 Parâmetros de Execução
+
+| Parâmetro | Tipo | Obrigatório | Padrão | Descrição |
+| :--- | :---: | :---: | :--- | :--- |
+| `dossier_path` | string | Sim | `DOSSIE_TECNICO_PRE_PROPOSTA.md` | Caminho para o dossiê técnico consolidado da pré-venda. |
+| `output_dir` | string | Não | `./anexos_contratuais` | Diretório de destino dos artefatos Markdown gerados. |
+| `contract_params` | object | Não | `{}` | Metadados jurídicos (Razão Social, CNPJs, taxas de CR, prazos de garantia). |
+
+### 6.4 Artefatos Produzidos no Diretório de Destino
+
+1. **`ANEXO_1_SOW.md`**: Declaração de Trabalho (SOW) com escopo discriminado em substantivos, matriz de não-escopo, NFRs e tabela de marcos vinculada ao faturamento.
+2. **`ANEXO_2_RACI_PRE_REQUISITOS.md`**: Matriz RACI, designação formal de Product Owner único do Cliente e Cláusula Pétrea de Schedule Freeze.
+3. **`ANEXO_3_PROTOCOLO_HOMOLOGACAO.md`**: Procedimento formal de UAT em Staging, janela de 5 dias úteis com Aceite Tácito (*Deemed Acceptance*) e taxonomia P1–P4.
+4. **`ANEXO_4_CHANGE_REQUEST.md`**: Protocolo de governança de mudanças nos 3 eixos (Horas, Caminho Crítico e Custo) com proibição de instruções informais.
+5. **`ANEXO_5_GARANTIA_SLA.md`**: Termo de Garantia Técnica (60 dias), tabela de SLA para incidentes (P1–P3) e transição para AMS.
+6. **`ANEXO_TECNICO_MESTRE_CONTRATO.md`**: Documento unificado, auditado por consistência cruzada, pronto para rubrica e vinculação ao contrato principal.
 
 ---
 

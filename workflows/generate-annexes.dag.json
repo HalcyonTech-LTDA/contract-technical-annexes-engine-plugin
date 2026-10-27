@@ -1,109 +1,80 @@
 {
-  "$schema": "https://antigravity.ai/schemas/workflow.v1.json",
-  "name": "generate-annexes",
-  "displayName": "Contract Technical Annexes Generation DAG Pipeline",
-  "description": "Multi-agent staged DAG pipeline transforming the pre-sales engineering dossier (DOSSIE_TECNICO_PRE_PROPOSTA.md) into the 5 binding technical annexes with cross-consistency auditing.",
+  "$schema": "https://antigravity.ai/schemas/dag-workflow.v1.json",
+  "id": "generate-technical-annexes-workflow",
+  "name": "Generate Technical Contract Annexes Pipeline",
   "version": "1.0.0",
-  "constraints": {
-    "prohibit_slides": true,
-    "prohibit_presentation_decks": true,
-    "prohibit_vague_scope": true,
-    "mandate_deemed_acceptance_5_days": true,
-    "mandate_binary_defect_classification": true,
-    "mandate_schedule_freeze": true,
-    "mandate_warranty_vs_ams_boundary": true
-  },
-  "stages": [
+  "nodes": [
     {
-      "id": "stage0_ingestion_normalization",
-      "name": "Ingestion & Contract Baseline Normalization",
+      "id": "step_1_ingestion",
       "agent": "agents/ingestion-normalizer.json",
-      "depends_on": [],
-      "inputs": ["dossier_path", "contract_params"],
-      "outputs": ["normalized_project_baseline.json"],
-      "rules": [
-        "rules/contract-engineering-standards.md",
-        "rules/legal-technical-boundaries.md"
-      ]
+      "inputs": {
+        "dossier": "{{args.dossier_path}}",
+        "params": "{{args.contract_params}}"
+      },
+      "outputs": ["normalized_project_baseline.json"]
     },
     {
-      "id": "stage1_sow_architecture",
-      "name": "SOW Architecture & Noun-based Scope Formulation",
+      "id": "step_2a_sow",
       "agent": "agents/sow-architect.json",
-      "depends_on": ["stage0_ingestion_normalization"],
-      "inputs": ["normalized_project_baseline.json"],
-      "outputs": ["ANEXO_1_SOW.md"],
-      "template": "templates/ANEXO_1_SOW.template.md",
-      "rules": [
-        "rules/contract-engineering-standards.md",
-        "rules/legal-technical-boundaries.md"
-      ]
+      "depends_on": ["step_1_ingestion"],
+      "inputs": {
+        "baseline": "normalized_project_baseline.json",
+        "template": "templates/ANEXO_1_SOW.template.md"
+      },
+      "outputs": ["{{args.output_dir}}/ANEXO_1_SOW.md"]
     },
     {
-      "id": "stage2_client_governance",
-      "name": "Client Governance & Bilateral Obligations Specification",
+      "id": "step_2b_raci",
       "agent": "agents/client-governance-drafter.json",
-      "depends_on": ["stage0_ingestion_normalization"],
-      "inputs": ["normalized_project_baseline.json"],
-      "outputs": ["ANEXO_2_RACI_PRE_REQUISITOS.md"],
-      "template": "templates/ANEXO_2_RACI_PRE_REQUISITOS.template.md",
-      "rules": [
-        "rules/contract-engineering-standards.md",
-        "rules/legal-technical-boundaries.md"
-      ]
+      "depends_on": ["step_1_ingestion"],
+      "inputs": {
+        "baseline": "normalized_project_baseline.json",
+        "template": "templates/ANEXO_2_RACI_PRE_REQUISITOS.template.md"
+      },
+      "outputs": ["{{args.output_dir}}/ANEXO_2_RACI_PRE_REQUISITOS.md"]
     },
     {
-      "id": "stage3_acceptance_policy",
-      "name": "Acceptance Protocol & Binary Defect Classification",
+      "id": "step_2c_acceptance",
       "agent": "agents/acceptance-policy-drafter.json",
-      "depends_on": ["stage0_ingestion_normalization", "stage1_sow_architecture"],
-      "inputs": ["normalized_project_baseline.json", "ANEXO_1_SOW.md"],
-      "outputs": ["ANEXO_3_PROTOCOLO_HOMOLOGACAO.md"],
-      "template": "templates/ANEXO_3_PROTOCOLO_HOMOLOGACAO.template.md",
-      "rules": [
-        "rules/contract-engineering-standards.md",
-        "rules/legal-technical-boundaries.md"
-      ]
+      "depends_on": ["step_1_ingestion"],
+      "inputs": {
+        "baseline": "normalized_project_baseline.json",
+        "template": "templates/ANEXO_3_PROTOCOLO_HOMOLOGACAO.template.md"
+      },
+      "outputs": ["{{args.output_dir}}/ANEXO_3_PROTOCOLO_HOMOLOGACAO.md"]
     },
     {
-      "id": "stage4_risk_maintenance",
-      "name": "Change Request Protocol & Warranty/SLA Demarcation",
+      "id": "step_2d_risk_sla",
       "agent": "agents/risk-maintenance-drafter.json",
-      "depends_on": ["stage0_ingestion_normalization", "stage1_sow_architecture", "stage3_acceptance_policy"],
-      "inputs": ["normalized_project_baseline.json", "ANEXO_1_SOW.md", "ANEXO_3_PROTOCOLO_HOMOLOGACAO.md"],
-      "outputs": ["ANEXO_4_CHANGE_REQUEST.md", "ANEXO_5_GARANTIA_SLA.md"],
-      "templates": [
-        "templates/ANEXO_4_CHANGE_REQUEST.template.md",
-        "templates/ANEXO_5_GARANTIA_SLA.template.md"
-      ],
-      "rules": [
-        "rules/contract-engineering-standards.md",
-        "rules/legal-technical-boundaries.md"
+      "depends_on": ["step_1_ingestion"],
+      "inputs": {
+        "baseline": "normalized_project_baseline.json",
+        "template_cr": "templates/ANEXO_4_CHANGE_REQUEST.template.md",
+        "template_sla": "templates/ANEXO_5_GARANTIA_SLA.template.md"
+      },
+      "outputs": [
+        "{{args.output_dir}}/ANEXO_4_CHANGE_REQUEST.md",
+        "{{args.output_dir}}/ANEXO_5_GARANTIA_SLA.md"
       ]
     },
     {
-      "id": "stage5_cross_consistency_audit",
-      "name": "Cross-Consistency & Legal-Technical Compliance Audit",
+      "id": "step_3_audit_and_bundle",
       "agent": "agents/cross-auditor.json",
       "depends_on": [
-        "stage1_sow_architecture",
-        "stage2_client_governance",
-        "stage3_acceptance_policy",
-        "stage4_risk_maintenance"
+        "step_2a_sow",
+        "step_2b_raci",
+        "step_2c_acceptance",
+        "step_2d_risk_sla"
       ],
-      "inputs": [
-        "normalized_project_baseline.json",
-        "ANEXO_1_SOW.md",
-        "ANEXO_2_RACI_PRE_REQUISITOS.md",
-        "ANEXO_3_PROTOCOLO_HOMOLOGACAO.md",
-        "ANEXO_4_CHANGE_REQUEST.md",
-        "ANEXO_5_GARANTIA_SLA.md"
-      ],
-      "outputs": ["ANEXO_TECNICO_MESTRE_CONTRATO.md"],
-      "rules": [
-        "rules/contract-engineering-standards.md",
-        "rules/legal-technical-boundaries.md"
-      ]
+      "inputs": {
+        "baseline": "normalized_project_baseline.json",
+        "annex_1": "{{args.output_dir}}/ANEXO_1_SOW.md",
+        "annex_2": "{{args.output_dir}}/ANEXO_2_RACI_PRE_REQUISITOS.md",
+        "annex_3": "{{args.output_dir}}/ANEXO_3_PROTOCOLO_HOMOLOGACAO.md",
+        "annex_4": "{{args.output_dir}}/ANEXO_4_CHANGE_REQUEST.md",
+        "annex_5": "{{args.output_dir}}/ANEXO_5_GARANTIA_SLA.md"
+      },
+      "outputs": ["{{args.output_dir}}/ANEXO_TECNICO_MESTRE_CONTRATO.md"]
     }
   ]
 }
