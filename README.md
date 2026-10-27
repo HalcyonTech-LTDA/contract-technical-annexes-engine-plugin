@@ -4,7 +4,7 @@
 ### Global Multi-Agent Engineering Pipeline for Binding Software Contract Technical Annexes
 
 [![Antigravity Plugin](https://img.shields.io/badge/Antigravity-Plugin-4F46E5.svg)](https://antigravity.google)
-[![Architecture: DAG Pipeline](https://img.shields.io/badge/Architecture-Staged%20DAG%20Pipeline-06B6D4.svg)](#4-multi-agent-dag-pipeline-architecture)
+[![Architecture: Native Skill DAG](https://img.shields.io/badge/Architecture-Native%20Skill%20Orchestrator-06B6D4.svg)](#4-multi-agent-dag-pipeline-architecture)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10B981.svg)](./LICENSE)
 [![Zero-Slides Enforced](https://img.shields.io/badge/Output-Dense%20Auditable%20Markdown-F59E0B.svg)](#2-critical-negative-constraints-zero-slides--zero-vagueness)
 
@@ -20,7 +20,7 @@
 
 The **Contract Technical Annexes Engine Plugin** (`contract-technical-annexes-engine`) is an enterprise-grade agentic customization for Google Antigravity. It is engineered to bridge the high-risk operational boundary between pre-sales engineering and formal legal execution in custom software development.
 
-By ingesting the consolidated pre-sales engineering dossier (`DOSSIE_TECNICO_PRE_PROPOSTA.md`) produced by upstream discovery engines, this plugin orchestrates a specialized multi-agent pipeline governed by a Directed Acyclic Graph (DAG) with cross-consistency auditing. It automatically drafts the complete set of **5 Binding Technical Contract Annexes (Bloco 1)**:
+By ingesting the consolidated pre-sales engineering dossier (`DOSSIE_TECNICO_PRE_PROPOSTA.md`) produced by upstream discovery engines, this plugin orchestrates a specialized multi-agent pipeline governed by a native **Skill Orchestrator** (`skills/contract-annexes-orchestrator/SKILL.md`) with cross-consistency auditing. It automatically drafts the complete set of **5 Binding Technical Contract Annexes (Bloco 1)**:
 
 1. **ANEXO 1 — Statement of Work (SOW) & Escopo Técnico:** Rigorous noun-based scope formulation with verifiable criteria, mandatory exclusions, and **Intellectual Property (IP) reservation conditioned on 100% invoice settlement**.
 2. **ANEXO 2 — RACI Matrix & Client Pre-requisites:** Explicit bilateral operational dependencies, day-for-day Schedule Freeze protection against client blockers, and **squad desmobilization / 5-day remobilization / standby fee protocols**.
@@ -61,8 +61,6 @@ contract-technical-annexes-engine/
 │   ├── acceptance-policy-drafter.md
 │   ├── risk-maintenance-drafter.md
 │   └── cross-auditor.md
-├── workflows/
-│   └── generate-annexes.dag.json
 └── templates/
     ├── ANEXO_1_SOW.template.md
     ├── ANEXO_2_RACI_PRE_REQUISITOS.template.md
@@ -73,9 +71,9 @@ contract-technical-annexes-engine/
 
 ---
 
-## 4. Multi-Agent DAG Pipeline Architecture
+## 4. Multi-Agent Pipeline Architecture (Native Skill DAG)
 
-The pipeline executes via a deterministic Directed Acyclic Graph (DAG) with parallel fan-out and bundle fan-in:
+In native Antigravity architecture, the execution graph intelligence resides within `skills/contract-annexes-orchestrator/SKILL.md`. The orchestrator model reads the structured runbook, verifies preconditions, invokes subagents with parallel fan-out, and performs fan-in cross-auditing:
 
 ```mermaid
 flowchart TD

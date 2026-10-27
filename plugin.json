@@ -1,9 +1,9 @@
 {
-  "$schema": "https://antigravity.google/schemas/plugin.v1.json",
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
   "name": "contract-technical-annexes-engine",
+  "displayName": "Contract Technical Annexes Engine",
   "version": "1.1.0",
   "description": "Pipeline agêntico nativo para geração de anexos técnicos vinculantes (SOW, RACI, Homologação, CR e SLA) para contratos de prestação de serviços de software a partir de dossiês de pré-venda.",
-  "type": "global",
   "author": "Engineering Architecture Office",
   "skills": [
     "skills/contract-annexes-orchestrator"
@@ -19,5 +19,10 @@
   "rules": [
     "rules/contract-engineering-standards.md",
     "rules/legal-technical-boundaries.md"
+  ],
+  "suggestedPrompts": [
+    "/contract-generate-annexes",
+    "Gerar os 5 anexos técnicos vinculantes a partir do dossiê técnico de pré-venda",
+    "Auditar e compilar o Anexo Técnico Mestre de Contrato (ANEXO_TECNICO_MESTRE_CONTRATO.md)"
   ]
 }
