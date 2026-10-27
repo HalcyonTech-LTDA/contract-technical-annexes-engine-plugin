@@ -1,6 +1,6 @@
 ---
 description: >-
-  Normas de engenharia para anexos técnicos vinculantes de software. Impõe substantivação do escopo, não-escopo obrigatório, proibição de aceite subjetivo, aceite tácito (deemed acceptance em 5 dias) e classificação binária de defeitos (P1/P2 vs P3/P4).
+  Normas de engenharia para anexos técnicos vinculantes de software. Impõe substantivação do escopo, não-escopo obrigatório, proibição de aceite subjetivo, aceite tácito (deemed acceptance em 5 dias), classificação binária de defeitos (P1/P2 vs P3/P4) e não-interrupção do relógio de aceite por instabilidade de APIs legadas do cliente.
 trigger: model_decision
 ---
 
@@ -28,3 +28,7 @@ trigger: model_decision
 5. **Classificação Binária de Defeitos:**
    - Apenas falhas de severidade P1 (Bloqueador) ou P2 (Crítico sem contorno) impedem o aceite de um marco.
    - Inconsistências P3 (Médio com workaround) e P4 (Cosmético/Visual) geram aceite do marco com obrigação de correção na sprint seguinte, sem reter o faturamento.
+
+6. **Não-Interrupção do Aceite Tácito por Instabilidade de Sistemas Legados do Cliente:**
+   - O prazo de 5 (cinco) dias úteis de homologação e a contagem regressiva para o Aceite Tácito não são suspensos nem interrompidos em razão de instabilidade, latência excessiva, queda de rede ou indisponibilidade de APIs, sandboxes, ERPs ou bancos de dados sob custódia do Cliente ou de fornecedores por ele indicados.
+   - Verificada a instabilidade externa imputável à infraestrutura do Cliente, a comprovação do aceite técnico do entregável da Contratada dar-se-á mediante apresentação de relatórios de testes automatizados com mocks/stubs simuladores devidamente aprovados no pipeline de CI/CD, liberando-se a respectiva cobrança financeira.

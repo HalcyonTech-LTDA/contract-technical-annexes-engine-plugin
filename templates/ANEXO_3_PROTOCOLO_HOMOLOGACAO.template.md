@@ -19,3 +19,7 @@
 ## 4. CLÁUSULA PÉTREA DE ACEITE TÁCITO (DEEMED ACCEPTANCE)
 <!-- Decurso do prazo de 5 dias úteis sem relatório técnico estruturado resulta em aprovação tácita irrevogável e autorização imediata de faturamento. -->
 {{CLAUSULA_ACEITE_TACITO}}
+
+## 5. NÃO-INTERRUPÇÃO DO ACEITE TÁCITO POR INSTABILIDADE DE AMBIENTES/APIS DO CLIENTE
+<!-- O prazo de 5 (cinco) dias úteis de homologação e a contagem de Aceite Tácito não são suspensos ou postergados por falhas, lentidão excessiva ou indisponibilidade em APIs legadas, sandboxes de ERP ou bancos de dados sob custódia do Cliente ou terceiros. A conformidade dos entregáveis da Contratada é comprovada de forma autônoma mediante suíte de testes automatizados com mocks/stubs no pipeline de CI/CD, liberando o respectivo faturamento do marco. -->
+{{NAO_INTERRUPCAO_INSTABILIDADE_CLIENTE}}

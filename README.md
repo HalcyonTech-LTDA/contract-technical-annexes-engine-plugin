@@ -22,10 +22,10 @@ The **Contract Technical Annexes Engine Plugin** (`contract-technical-annexes-en
 
 By ingesting the consolidated pre-sales engineering dossier (`DOSSIE_TECNICO_PRE_PROPOSTA.md`) produced by upstream discovery engines, this plugin orchestrates a specialized multi-agent pipeline governed by a Directed Acyclic Graph (DAG) with cross-consistency auditing. It automatically drafts the complete set of **5 Binding Technical Contract Annexes (Bloco 1)**:
 
-1. **ANEXO 1 — Statement of Work (SOW) & Escopo Técnico:** Rigorous noun-based scope formulation with verifiable criteria and mandatory exclusions.
-2. **ANEXO 2 — RACI Matrix & Client Pre-requisites:** Explicit bilateral operational dependencies and automatic day-for-day Schedule Freeze protection against client blockers.
-3. **ANEXO 3 — Acceptance & Homologation Protocol:** Elimination of subjective acceptance, an irrevocable 5-day Tacit Acceptance (*Deemed Acceptance*) rule in Staging, and binary defect triage (P1/P2 blocker vs P3/P4 non-blocker).
-4. **ANEXO 4 — Change Request (CR) Protocol:** Immutable baseline governance with clear deviation workflows, cost-per-hour grids, and milestone recalibration formulas.
+1. **ANEXO 1 — Statement of Work (SOW) & Escopo Técnico:** Rigorous noun-based scope formulation with verifiable criteria, mandatory exclusions, and **Intellectual Property (IP) reservation conditioned on 100% invoice settlement**.
+2. **ANEXO 2 — RACI Matrix & Client Pre-requisites:** Explicit bilateral operational dependencies, day-for-day Schedule Freeze protection against client blockers, and **squad desmobilization / 5-day remobilization / standby fee protocols**.
+3. **ANEXO 3 — Acceptance & Homologation Protocol:** Elimination of subjective acceptance, irrevocable 5-day Tacit Acceptance (*Deemed Acceptance*) rule in Staging, binary defect triage (P1/P2 blocker vs P3/P4 non-blocker), and **non-suspension of acceptance due to client-side legacy API/sandbox downtime**.
+4. **ANEXO 4 — Change Request (CR) Protocol:** Immutable baseline governance with clear deviation workflows, cost-per-hour grids, nullification of informal Slack/WhatsApp commands, and milestone recalibration formulas.
 5. **ANEXO 5 — Technical Warranty & SLA Term:** 30–90 day latent defect warranty boundaries, explicit exclusions of 3rd-party API disruptions and client tampering, and strict demarcation from ongoing Application Management Services (AMS).
 
 ---
@@ -129,11 +129,20 @@ The SOW must contain an explicit, non-negotiable list of contractual exclusions:
 - Only **P1 (Blocker)** and **P2 (Critical without workaround)** can withhold milestone sign-off and billing.
 - **P3 (Major with workaround)** and **P4 (Cosmetic)** trigger milestone sign-off and payment release, with fixes scheduled for the next development sprint.
 
-### Rule 6: Separação de Obrigações Bilaterais & Schedule Freeze
-- Custom software engineering is an obligation of means requiring active client cooperation.
-- Client-side delays (credentials, sandboxes, business rule decisions) trigger an automatic **Schedule Freeze** extending deadlines without liquidated damages or contractor penalties.
+### Rule 6: Não-Interrupção do Aceite Tácito por Instabilidade Legada do Cliente
+- Downtime, latency, schema breaks, or network failures in legacy sandboxes, ERPs, or APIs under client custody do **NOT** pause or extend the 5-day Deemed Acceptance window.
+- Contractor compliance is verified and approved autonomously via automated CI/CD test suites with mocks/stubs, releasing invoice billing for the milestone.
 
-### Rule 7: Fronteira da Garantia vs. Sustentação (AMS)
+### Rule 7: Separação de Obrigações Bilaterais, Schedule Freeze e Protocolo de Standby/Remobilização
+- Software development is an obligation of means requiring active client cooperation.
+- Client-side delays (>48h business hours) trigger an automatic day-for-day **Schedule Freeze** without penalties or liquidated damages against the contractor.
+- **Desmobilization & Remobilization:** If client delays exceed 10 business days, the contractor may reassign squad engineers to other productive work. Client resumption requires an up to **5 business day remobilization window** without mora. If the client demands exclusive standby during the freeze, an hourly/daily **Squad Standby Fee** is billed.
+
+### Rule 8: Reserva de Propriedade Intelectual (IP) Vinculada à Quitação Integral
+- Definitive transfer and assignment of intellectual property rights over source code, repositories, and technical deliverables are strictly conditioned upon **100% full financial settlement** of all project invoices and approved Change Requests.
+- Until full settlement, the client holds strictly a temporary, non-exclusive, revocable license for Staging UAT; commercial exploitation, sublicensing, or production deployment is barred.
+
+### Rule 9: Fronteira da Garantia vs. Sustentação (AMS)
 - Technical warranty (30 to 90 days) covers strictly latent defects in code authored by the contractor.
 - Third-party API changes, unauthorized client code modifications, and new business rules are categorically excluded. Any post-warranty intervention requires an autonomous AMS or Change Request agreement.
 
@@ -175,12 +184,12 @@ contract:generate-annexes dossier_path="DOSSIE_TECNICO_PRE_PROPOSTA.md" output_d
 
 ### 6.4 Artefatos Produzidos no Diretório de Destino
 
-1. **`ANEXO_1_SOW.md`**: Declaração de Trabalho (SOW) com escopo discriminado em substantivos, matriz de não-escopo, NFRs e tabela de marcos vinculada ao faturamento.
-2. **`ANEXO_2_RACI_PRE_REQUISITOS.md`**: Matriz RACI, designação formal de Product Owner único do Cliente e Cláusula Pétrea de Schedule Freeze.
-3. **`ANEXO_3_PROTOCOLO_HOMOLOGACAO.md`**: Procedimento formal de UAT em Staging, janela de 5 dias úteis com Aceite Tácito (*Deemed Acceptance*) e taxonomia P1–P4.
-4. **`ANEXO_4_CHANGE_REQUEST.md`**: Protocolo de governança de mudanças nos 3 eixos (Horas, Caminho Crítico e Custo) com proibição de instruções informais.
+1. **`ANEXO_1_SOW.md`**: Declaração de Trabalho (SOW) com escopo discriminado em substantivos, matriz de não-escopo, NFRs, tabela de marcos vinculada ao faturamento e **reserva de IP até quitação de 100%**.
+2. **`ANEXO_2_RACI_PRE_REQUISITOS.md`**: Matriz RACI, designação de PO único, Cláusula Pétrea de Schedule Freeze, **desmobilização após 10 dias de freeze, janela de 5 dias de remobilização e Taxa de Standby da squad**.
+3. **`ANEXO_3_PROTOCOLO_HOMOLOGACAO.md`**: Procedimento formal de UAT em Staging, janela de 5 dias úteis com Aceite Tácito (*Deemed Acceptance*), taxonomia P1–P4 e **não-suspensão por instabilidade de APIs legadas do cliente**.
+4. **`ANEXO_4_CHANGE_REQUEST.md`**: Protocolo de governança de mudanças nos 3 eixos (Horas, Caminho Crítico e Custo) com proibição de instruções informais via chat.
 5. **`ANEXO_5_GARANTIA_SLA.md`**: Termo de Garantia Técnica (60 dias), tabela de SLA para incidentes (P1–P3) e transição para AMS.
-6. **`ANEXO_TECNICO_MESTRE_CONTRATO.md`**: Documento unificado, auditado por consistência cruzada, pronto para rubrica e vinculação ao contrato principal.
+6. **`ANEXO_TECNICO_MESTRE_CONTRATO.md`**: Documento unificado, auditado por consistência cruzada nos 6 eixos, pronto para rubrica e vinculação ao contrato principal.
 
 ---
 

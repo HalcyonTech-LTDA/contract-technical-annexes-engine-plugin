@@ -21,3 +21,7 @@
 | M3 | Go-Live & Handover | Deploy em produção, smoke tests e entrega do código | 20% |
 
 {{TABELA_MARCOS_CUSTOMIZADA}}
+
+## 5. RESERVA DE PROPRIEDADE INTELECTUAL (IP) SUBORDINADA À QUITAÇÃO INTEGRAL
+<!-- A titularidade e cessão definitiva dos direitos patrimoniais sobre o código-fonte, repositórios e artefatos de engenharia ficam estritamente condicionadas à quitação integral de 100% de todas as faturas contratuais pactuadas e eventuais Change Requests (CRs). Até a liquidação financeira total, o Cliente possui apenas licença de uso temporária e precária para testes em Staging. -->
+{{CLAUSULA_RESERVA_PROPRIEDADE_INTELECTUAL}}
