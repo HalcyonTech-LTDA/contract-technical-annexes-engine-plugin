@@ -2,4 +2,5 @@
 *.log
 anexos_contratuais/
 scratch/
+.scratch/
 tmp/

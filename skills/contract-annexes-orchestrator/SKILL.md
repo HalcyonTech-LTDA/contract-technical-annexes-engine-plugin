@@ -7,15 +7,28 @@ description: >-
 
 # Contract Annexes Orchestrator Skill
 
-Esta skill expõe o comando `/contract-generate-annexes` e orienta o modelo orquestrador a executar o pipeline agêntico de geração dos 5 anexos técnicos contratuais vinculantes para contratos de prestação de serviços de engenharia de software.
+Esta skill expõe o comando `/contract-annexes-orchestrator` e orienta o modelo orquestrador a executar o pipeline agêntico nativo de geração dos 5 anexos técnicos contratuais vinculantes para contratos de prestação de serviços de engenharia de software.
 
-A inteligência de orquestração reside inteiramente nas instruções deste documento: o modelo orquestrador lê as dependências, analisa os pré-requisitos e aciona os subagentes especializados na ordem estrita abaixo.
+A inteligência de orquestração reside inteiramente nas instruções deste documento: o modelo orquestrador lê as dependências, analisa os pré-requisitos, faz a resolução segura de templates e aciona os subagentes especializados na ordem prescrita.
 
 ---
 
 ## Gatilhos e Invocação
-- **Comando direto via Slash Command:** `/contract-generate-annexes [caminho_do_dossie] [diretorio_saida]`
+- **Comando direto via Slash Command:** `/contract-annexes-orchestrator [caminho_do_dossie] [diretorio_saida]`
 - **Invocação contextual por linguagem natural:** Sempre que o usuário solicitar gerar anexos contratuais de engenharia, minutas vinculantes, SOW, protocolo de homologação ou matriz RACI a partir de um dossiê técnico ou notas de discovery.
+
+---
+
+## Diretórios e Localização de Templates (Execução Global)
+- **Localização dos Templates da Skill:** Os templates estruturais residem obrigatoriamente dentro da própria pasta da Skill:
+  `skills/contract-annexes-orchestrator/templates/`
+  - `ANEXO_1_SOW.template.md`
+  - `ANEXO_2_RACI_PRE_REQUISITOS.template.md`
+  - `ANEXO_3_PROTOCOLO_HOMOLOGACAO.template.md`
+  - `ANEXO_4_CHANGE_REQUEST.template.md`
+  - `ANEXO_5_GARANTIA_SLA.template.md`
+- **Injeção de Templates:** O modelo orquestrador deve ler o conteúdo do template correspondente da pasta da skill e injetá-lo no prompt de execução do subagente redator.
+- **Isolamento de Handoff Transitório:** O artefato intermediário de dados deve ser salvo em `{{output_dir}}/.scratch/normalized_project_baseline.json`. A pasta `.scratch/` é ignorada pelo controle de versão (`.gitignore`), garantindo que o diretório raiz de entrega `{{output_dir}}` permaneça limpo, contendo apenas os documentos finais.
 
 ---
 
@@ -24,67 +37,75 @@ A inteligência de orquestração reside inteiramente nas instruções deste doc
 ```
 [DOSSIE_TECNICO_PRE_PROPOSTA.md]
               │
-              ▼ (Passo 1: Sequencial)
-    [ingestion-normalizer]
+              ▼ (Passo 1: Sequencial com Pre-Flight Check)
+     [ingestion-normalizer] ──> [{{output_dir}}/.scratch/normalized_project_baseline.json]
               │
   ┌───────────┼───────────┬───────────┐ (Passo 2: Fan-Out Paralelo)
   ▼           ▼           ▼           ▼
 [sow]       [raci]     [qa-acc]   [risk-sla]
   │           │           │           │
-  └───────────┼───────────┴───────────┘ (Passo 3: Fan-In)
+  └───────────┼───────────┴───────────┘ (Passo 3: Fan-In & Quadro Sinóptico)
               ▼
-       [cross-auditor]
+        [cross-auditor]
               │
               ▼
-[ANEXO_TECNICO_MESTRE_CONTRATO.md]
+[{{output_dir}}/ANEXO_TECNICO_MESTRE_CONTRATO.md]
 ```
 
-### Passo 1: Ingestão e Validação Prévia (Sequencial)
-1. Identifique o dossiê de entrada: por padrão `./DOSSIE_TECNICO_PRE_PROPOSTA.md` (ou o caminho fornecido pelo usuário) e o diretório de saída (padrão: `./anexos_contratuais`).
-2. Execute o subagente `ingestion-normalizer` passando o arquivo de entrada.
-3. **Barreira de Qualidade (Gate 1):**
-   - Se o subagente retornar `STATUS: BLOCKED_MISSING_PRECONDITIONS`, **interrompa a execução imediatamente** e apresente ao usuário os campos mandatórios ausentes (ex.: marcos de entrega inverificáveis, ausência de stack ou escopo vago).
-   - Somente avance para o Passo 2 se a baseline estiver completa e validada.
+### Passo 1: Ingestão e Pre-Flight Check com Fallbacks (Sequencial)
+1. Identifique o dossiê de entrada: por padrão `./DOSSIE_TECNICO_PRE_PROPOSTA.md` (ou o caminho fornecido pelo usuário) e o diretório de saída (padrão: `./anexos_contratuais`). Crie o subdiretório `{{output_dir}}/.scratch/`.
+2. Execute o subagente `ingestion-normalizer` passando o dossiê de entrada.
+3. **Avaliação da Barreira de Qualidade (Pre-Flight Check):**
+   - **Bloqueio Estrito (`STATUS: BLOCKED_MISSING_PRECONDITIONS`):** Interrompa imediatamente a esteira SOMENTE se o dossiê omitir o escopo funcional mínimo estrutural ou a definição básica de arquitetura técnica. Notifique o usuário dos requisitos faltantes.
+   - **Fallbacks Padrão Inteligentes:** Se faltarem variáveis comerciais secundárias, o normalizador NÃO aborta; injeta os defaults contratuais padrão da software house no JSON e registra a lista `applied_defaults`:
+     - Janela de Homologação em Staging: `5 dias úteis`
+     - SLA de Resposta do Cliente: `48 horas úteis`
+     - Garantia Técnica: `60 dias corridos`
+     - Taxa Horária de CR: `[R$ VALOR_HORA_TECNICA_A_DEFINIR]`
+     - PO do Cliente: `[NOME_E_CARGO_DO_PO_A_DESIGNAR]`
+4. O subagente grava a baseline canônica em `{{output_dir}}/.scratch/normalized_project_baseline.json`.
 
 ### Passo 2: Redação Especializada dos Anexos (Fan-Out Paralelo)
-Com a baseline normalizada aprovada, acione os subagentes redatores em paralelo para gerar os 5 anexos nos seus respectivos caminhos em disco:
+Com a baseline aprovada em `.scratch/`, acione os subagentes redatores em paralelo injetando os templates de `skills/contract-annexes-orchestrator/templates/`:
 
-1. **`sow-architect`** -> Redige `ANEXO_1_SOW.md` com base em `templates/ANEXO_1_SOW.template.md`:
-   - Substantivação estrita do escopo (substantivos técnicos auditáveis, zero verbos soltos).
-   - Lista taxativa de Não-Escopo (migração de banco legado, browsers legados, contas de nuvem/APIs e suporte presencial L1).
-   - Tabela de Marcos (M0 a Mn) e percentuais de faturamento vinculados.
-   - **Salvaguarda de IP:** Reserva expressa de Propriedade Intelectual subordinada à quitação de 100% de todas as faturas contratuais pactuadas e eventuais CRs.
+1. **`sow-architect`** -> Redige `{{output_dir}}/ANEXO_1_SOW.md` com base em `skills/contract-annexes-orchestrator/templates/ANEXO_1_SOW.template.md`:
+   - Substantivação do escopo (módulos entregáveis, zero ambiguidades).
+   - Não-Escopo explícito e taxativo (migração de banco legado, browsers obsoletos, contas de terceiros, suporte presencial).
+   - **Modelo de Contratação Dinâmico (Seção 4):**
+     - *Modo A (Fixed Price por Milestones):* Marcos M0..Mn vinculados a entregáveis físicos e percentuais de faturamento.
+     - *Modo B (Squad Dedicada / Time & Materials):* Tabela de capacidade técnica alocada (seniores/plenos), horas/mês e faturamento por capacidade.
+     - *Modo C (Fase 0 / Inception Técnica Paga):* Cronograma ágil de discovery técnico, protótipo navegável, POC e backlog refinado.
+   - **Propriedade Intelectual (Seção 5):**
+     - *Foreground IP:* Titularidade suspensivamente vinculada à quitação de 100% de todas as faturas contratuais.
+     - *Background IP:* Titularidade exclusiva da Contratada sobre frameworks, bibliotecas e aceleradores de infraestrutura (IaC) pré-existentes, concedendo ao Cliente licença de uso perpétua e não-exclusiva.
 
-2. **`client-governance-drafter`** -> Redige `ANEXO_2_RACI_PRE_REQUISITOS.md` com base em `templates/ANEXO_2_RACI_PRE_REQUISITOS.template.md`:
-   - Nomeação obrigatória de Product Owner (PO) único do Cliente com poderes irrevogáveis.
-   - Checklist prévio de credenciais, sandboxes funcionais e bases de teste anonimizadas (LGPD).
-   - **Schedule Freeze:** Atrasos do cliente > 48h úteis congelam e prorrogam o cronograma na proporção de 1:1 sem penalidade à software house.
-   - **Desmobilização e Standby:** Bloqueios > 10 dias úteis autorizam desmobilização da squad para outros projetos, com janela de 5 dias úteis para remobilização sem mora. Prontidão contínua forçada gera faturamento de Taxa de Standby da Squad.
+2. **`client-governance-drafter`** -> Redige `{{output_dir}}/ANEXO_2_RACI_PRE_REQUISITOS.md` com base em `skills/contract-annexes-orchestrator/templates/ANEXO_2_RACI_PRE_REQUISITOS.template.md`:
+   - Designação do Product Owner (PO) único do Cliente.
+   - Checklist prévio de acessos, credenciais, repositórios e sandboxes.
+   - **Schedule Freeze:** Atrasos do cliente > 48h úteis congelam e prorrogam o cronograma 1:1 sem ônus.
+   - **Desmobilização e Standby:** Atrasos > 10 dias úteis autorizam desmobilização da equipe para outros projetos (janela de remobilização de 5 dias úteis sem mora). Standby contínuo faturado via Taxa de Standby.
+   - **Conformidade LGPD em Ambientes de Engenharia (Seção 5):** Cliente como Controlador e Contratada como Operadora técnica; vedação expressa ao fornecimento de dados reais de produção com dados pessoais (PII) sem anonimização irreversível prévia.
 
-3. **`acceptance-policy-drafter`** -> Redige `ANEXO_3_PROTOCOLO_HOMOLOGACAO.md` com base em `templates/ANEXO_3_PROTOCOLO_HOMOLOGACAO.template.md`:
-   - Homologação restrita ao ambiente de Staging (proibição de testes locais ou em produção).
-   - Janela máxima de 5 (cinco) dias úteis para testes do Cliente.
-   - **Aceite Tácito (*Deemed Acceptance*):** Silêncio ou falta de relatório circunstanciado em 5 dias gera aprovação irrevogável e liberação imediata de faturamento.
-   - **Taxonomia Binária:** Apenas falhas P1/P2 retêm faturamento; P3/P4 são aceitas com faturamento liberado e correção na sprint seguinte.
-   - **Não-Interrupção por Queda Externa:** Instabilidade de ERPs/APIs legadas do Cliente NÃO suspende a contagem de 5 dias do Aceite Tácito; conformidade da Contratada é atestada via testes automatizados/mocks no CI/CD.
+3. **`acceptance-policy-drafter`** -> Redige `{{output_dir}}/ANEXO_3_PROTOCOLO_HOMOLOGACAO.md` com base em `skills/contract-annexes-orchestrator/templates/ANEXO_3_PROTOCOLO_HOMOLOGACAO.template.md`:
+   - Homologação adstrita exclusivamente ao ambiente de Staging.
+   - Janela de teste de 5 (cinco) dias úteis.
+   - **Aceite Tácito (*Deemed Acceptance*):** Silêncio decorrido os 5 dias acarreta aprovação tácita irrevogável e liberação de faturamento.
+   - **Taxonomia P1-P4:** Retenção de faturamento restrita a bloqueios P1/P2; falhas cosméticas P3/P4 não retêm aceite nem faturamento.
+   - **Resiliência a Legados do Cliente:** Quedas ou instabilidades de APIs ou sandboxes legadas do Cliente NÃO suspendem o relógio do aceite tácito; evidências de conformidade são geradas via testes automatizados/mocks no CI/CD.
 
-4. **`risk-maintenance-drafter`** -> Redige `ANEXO_4_CHANGE_REQUEST.md` e `ANEXO_5_GARANTIA_SLA.md` com base nos respectivos templates:
-   - **Anexo 4:** Nulidade de pedidos via WhatsApp/Slack; análise de impacto obrigatória nos 3 eixos (Horas, Caminho Crítico e Custo); proibição de codificar sem aditivo assinado.
-   - **Anexo 5:** Garantia de 60 dias adstrita a vícios ocultos do código autoral; exclusão taxativa de quebras em APIs de terceiros; tabela de SLA; extinção automática do suporte gratuito e transição obrigatória para contrato de AMS.
+4. **`risk-maintenance-drafter`** -> Redige `{{output_dir}}/ANEXO_4_CHANGE_REQUEST.md` e `{{output_dir}}/ANEXO_5_GARANTIA_SLA.md` com base nos respectivos templates:
+   - **Anexo 4:** Gestão de mudanças rigorosa; nulidade de acordos informais (WhatsApp, calls verbais); precificação e formalização prévias de qualquer CR.
+   - **Anexo 5:** Garantia técnica de 60 dias limitada a vícios no código-fonte autoral da Contratada; exclusão de falhas de infraestrutura externa ou APIs de terceiros; extinção do suporte gratuito e transição para AMS.
 
-### Passo 3: Auditoria Cruzada e Compilação Mestre (Fan-In)
-1. Acione o subagente `cross-auditor` fornecendo a baseline e os 5 anexos gerados.
-2. O auditor inspecionará:
-   - Rastreabilidade e sincronia dos marcos (M0, M1, M2...) entre SOW, Homologação e RACI.
-   - Concordância exata da taxa horária de Change Request.
-   - Eliminação de qualquer termo subjetivo remanescente.
-   - Presença obrigatória de todas as salvaguardas (Reserva de IP, Desmobilização/Standby, Aceite Tácito, Não-Interrupção por Sandboxes do Cliente e Não-Escopo).
-3. Estando tudo aprovado, o `cross-auditor` compilará o **`ANEXO_TECNICO_MESTRE_CONTRATO.md`**, contendo sumário executivo e os 5 anexos unificados prontos para assinatura digital.
+### Passo 3: Auditoria Cruzada e Compilação Mestre com Quadro Sinóptico (Fan-In)
+1. Acione o subagente `cross-auditor` fornecendo `{{output_dir}}/.scratch/normalized_project_baseline.json` e os 5 anexos gerados.
+2. O subagente audita harmonia técnica, consistência entre marcos e faturamento, purificação de termos subjetivos e todas as salvaguardas contratuais (IP, LGPD, Standby, Aceite Tácito).
+3. Aprovada a auditoria, compila o arquivo **`{{output_dir}}/ANEXO_TECNICO_MESTRE_CONTRATO.md`**, iniciando com a **Seção 0 (Quadro Sinóptico de Variáveis Contratuais)** como espelho executivo para o contrato principal.
 
 ---
 
 ## Entrega Final ao Usuário
 Apresente no chat:
-1. Resumo executivo dos 5 anexos e do Documento Mestre gerados.
-2. Caminho de cada artefato gravado no diretório de saída.
-3. Confirmação do status de conformidade da auditoria cruzada e das salvaguardas de proteção contratual.
+1. Resumo executivo dos 5 anexos gerados e do Documento Mestre consolidado.
+2. Tabela do Quadro Sinóptico de Variáveis Contratuais destacando os defaults que demandam ratificação comercial/jurídica.
+3. Caminho de todos os artefatos gerados em disco.

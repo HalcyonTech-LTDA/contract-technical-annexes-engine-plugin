@@ -3,7 +3,7 @@
 # Contract Technical Annexes Engine Plugin
 ### Global Multi-Agent Engineering Pipeline for Binding Software Contract Technical Annexes
 
-[![Antigravity Plugin](https://img.shields.io/badge/Antigravity-Plugin-4F46E5.svg)](https://antigravity.google)
+[![Antigravity Plugin](https://img.shields.io/badge/Antigravity-Plugin%20v1.2.0-4F46E5.svg)](https://antigravity.google)
 [![Architecture: Native Skill DAG](https://img.shields.io/badge/Architecture-Native%20Skill%20Orchestrator-06B6D4.svg)](#4-multi-agent-dag-pipeline-architecture)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10B981.svg)](./LICENSE)
 [![Zero-Slides Enforced](https://img.shields.io/badge/Output-Dense%20Auditable%20Markdown-F59E0B.svg)](#2-critical-negative-constraints-zero-slides--zero-vagueness)
@@ -18,15 +18,16 @@
 
 ## 1. Overview & Strategic Mission
 
-The **Contract Technical Annexes Engine Plugin** (`contract-technical-annexes-engine`) is an enterprise-grade agentic customization for Google Antigravity. It is engineered to bridge the high-risk operational boundary between pre-sales engineering and formal legal execution in custom software development.
+The **Contract Technical Annexes Engine Plugin** (`contract-technical-annexes-engine`, v1.2.0) is an enterprise-grade agentic customization for Google Antigravity. It bridges the high-risk operational boundary between pre-sales engineering and formal legal execution in custom software development.
 
-By ingesting the consolidated pre-sales engineering dossier (`DOSSIE_TECNICO_PRE_PROPOSTA.md`) produced by upstream discovery engines, this plugin orchestrates a specialized multi-agent pipeline governed by a native **Skill Orchestrator** (`skills/contract-annexes-orchestrator/SKILL.md`) with cross-consistency auditing. It automatically drafts the complete set of **5 Binding Technical Contract Annexes (Bloco 1)**:
+By ingesting the consolidated pre-sales engineering dossier (`DOSSIE_TECNICO_PRE_PROPOSTA.md`) produced by upstream discovery engines, this plugin orchestrates a specialized multi-agent pipeline governed by a native **Skill Orchestrator** (`skills/contract-annexes-orchestrator/SKILL.md`) with cross-consistency auditing. It automatically drafts the complete set of **5 Binding Technical Contract Annexes (Bloco 1)** and a unified Master Document:
 
-1. **ANEXO 1 — Statement of Work (SOW) & Escopo Técnico:** Rigorous noun-based scope formulation with verifiable criteria, mandatory exclusions, and **Intellectual Property (IP) reservation conditioned on 100% invoice settlement**.
-2. **ANEXO 2 — RACI Matrix & Client Pre-requisites:** Explicit bilateral operational dependencies, day-for-day Schedule Freeze protection against client blockers, and **squad desmobilization / 5-day remobilization / standby fee protocols**.
+1. **ANEXO 1 — Statement of Work (SOW) & Escopo Técnico:** Rigorous noun-based scope formulation with verifiable criteria, mandatory exclusions, **support for 3 contracting models** (Fixed Price Milestones, Dedicated Squad / T&M, or Paid Phase 0 Inception), and **Intellectual Property boundaries (Foreground IP conditional upon 100% settlement vs. Background IP contractor reservation)**.
+2. **ANEXO 2 — RACI Matrix & Client Pre-requisites:** Explicit bilateral operational dependencies, day-for-day Schedule Freeze protection against client blockers, **squad desmobilization / 5-day remobilization / standby fee protocols**, and **LGPD data protection in non-production environments (Client as Controller, Contractor as Processor, express ban on production PII dumps)**.
 3. **ANEXO 3 — Acceptance & Homologation Protocol:** Elimination of subjective acceptance, irrevocable 5-day Tacit Acceptance (*Deemed Acceptance*) rule in Staging, binary defect triage (P1/P2 blocker vs P3/P4 non-blocker), and **non-suspension of acceptance due to client-side legacy API/sandbox downtime**.
 4. **ANEXO 4 — Change Request (CR) Protocol:** Immutable baseline governance with clear deviation workflows, cost-per-hour grids, nullification of informal Slack/WhatsApp commands, and milestone recalibration formulas.
 5. **ANEXO 5 — Technical Warranty & SLA Term:** 30–90 day latent defect warranty boundaries, explicit exclusions of 3rd-party API disruptions and client tampering, and strict demarcation from ongoing Application Management Services (AMS).
+6. **ANEXO_TECNICO_MESTRE_CONTRATO.md:** Master unified document starting with **Section 0: Quadro Sinóptico de Variáveis Contratuais (Mirror for the Main Contract)** followed by all 5 consolidated annexes, formatted for direct integration into digital signature platforms.
 
 ---
 
@@ -40,7 +41,9 @@ By ingesting the consolidated pre-sales engineering dossier (`DOSSIE_TECNICO_PRE
 
 ---
 
-## 3. Directory Structure
+## 3. Directory Structure (Antigravity v1.2.0 Compliant)
+
+All contract templates are securely encapsulated inside the orchestrating skill folder for global, project-independent execution:
 
 ```
 contract-technical-annexes-engine/
@@ -53,147 +56,142 @@ contract-technical-annexes-engine/
 │   └── legal-technical-boundaries.md
 ├── skills/
 │   └── contract-annexes-orchestrator/
-│       └── SKILL.md
-├── agents/
-│   ├── ingestion-normalizer.md
-│   ├── sow-architect.md
-│   ├── client-governance-drafter.md
-│   ├── acceptance-policy-drafter.md
-│   ├── risk-maintenance-drafter.md
-│   └── cross-auditor.md
-└── templates/
-    ├── ANEXO_1_SOW.template.md
-    ├── ANEXO_2_RACI_PRE_REQUISITOS.template.md
-    ├── ANEXO_3_PROTOCOLO_HOMOLOGACAO.template.md
-    ├── ANEXO_4_CHANGE_REQUEST.template.md
-    └── ANEXO_5_GARANTIA_SLA.template.md
+│       ├── SKILL.md
+│       └── templates/
+│           ├── ANEXO_1_SOW.template.md
+│           ├── ANEXO_2_RACI_PRE_REQUISITOS.template.md
+│           ├── ANEXO_3_PROTOCOLO_HOMOLOGACAO.template.md
+│           ├── ANEXO_4_CHANGE_REQUEST.template.md
+│           └── ANEXO_5_GARANTIA_SLA.template.md
+└── agents/
+    ├── ingestion-normalizer.md
+    ├── sow-architect.md
+    ├── client-governance-drafter.md
+    ├── acceptance-policy-drafter.md
+    ├── risk-maintenance-drafter.md
+    └── cross-auditor.md
 ```
 
 ---
 
 ## 4. Multi-Agent Pipeline Architecture (Native Skill DAG)
 
-In native Antigravity architecture, the execution graph intelligence resides within `skills/contract-annexes-orchestrator/SKILL.md`. The orchestrator model reads the structured runbook, verifies preconditions, invokes subagents with parallel fan-out, and performs fan-in cross-auditing:
+In native Antigravity architecture, execution graph intelligence resides within `skills/contract-annexes-orchestrator/SKILL.md`. The orchestrator model evaluates dependencies, executes pre-flight checks, handles template injection, invokes subagents with parallel fan-out, and performs fan-in cross-auditing:
 
 ```mermaid
 flowchart TD
-    Dossier["Input Dossier\n(DOSSIE_TECNICO_PRE_PROPOSTA.md)"] --> Step1["Step 1: Ingestion & Normalizer\n(ingestion-normalizer.md)"]
+    Dossier["Input Dossier\n(DOSSIE_TECNICO_PRE_PROPOSTA.md)"] --> Step1["Step 1: Ingestion & Pre-Flight Check\n(ingestion-normalizer.md)"]
     Params["Contract Params\n(contract_params)"] --> Step1
     
-    Step1 --> Baseline["normalized_project_baseline.json"]
+    Step1 --> Intermediate[".scratch/normalized_project_baseline.json\n(Intermediate Transit Artifact)"]
     
-    Baseline --> Step2a["Step 2a: SOW Architect\n(sow-architect.md)"]
-    Baseline --> Step2b["Step 2b: Client Governance Drafter\n(client-governance-drafter.md)"]
-    Baseline --> Step2c["Step 2c: Acceptance Policy Drafter\n(acceptance-policy-drafter.md)"]
-    Baseline --> Step2d["Step 2d: Risk & SLA Drafter\n(risk-maintenance-drafter.md)"]
+    Intermediate --> Step2a["Step 2a: SOW Architect\n(sow-architect.md)"]
+    Intermediate --> Step2b["Step 2b: Client Governance Drafter\n(client-governance-drafter.md)"]
+    Intermediate --> Step2c["Step 2c: Acceptance Policy Drafter\n(acceptance-policy-drafter.md)"]
+    Intermediate --> Step2d["Step 2d: Risk & SLA Drafter\n(risk-maintenance-drafter.md)"]
     
-    Step2a --> A1["ANEXO_1_SOW.md"]
-    Step2b --> A2["ANEXO_2_RACI_PRE_REQUISITOS.md"]
-    Step2c --> A3["ANEXO_3_PROTOCOLO_HOMOLOGACAO.md"]
-    Step2d --> A4["ANEXO_4_CHANGE_REQUEST.md"]
-    Step2d --> A5["ANEXO_5_GARANTIA_SLA.md"]
+    Step2a --> A1["ANEXO_1_SOW.md\n(3 Contracting Modes + IP Clause)"]
+    Step2b --> A2["ANEXO_2_RACI_PRE_REQUISITOS.md\n(RACI + Freeze/Standby + LGPD)"]
+    Step2c --> A3["ANEXO_3_PROTOCOLO_HOMOLOGACAO.md\n(5-Day Deemed Acceptance + Binary P1-P4)"]
+    Step2d --> A4["ANEXO_4_CHANGE_REQUEST.md\n(Formal Governance + Rate Grid)"]
+    Step2d --> A5["ANEXO_5_GARANTIA_SLA.md\n(60-Day Warranty + AMS Boundary)"]
     
-    Baseline --> Step3["Step 3: Cross-Auditor & Bundle\n(cross-auditor.md)"]
+    Intermediate --> Step3["Step 3: Cross-Auditor & Compiler\n(cross-auditor.md)"]
     A1 --> Step3
     A2 --> Step3
     A3 --> Step3
     A4 --> Step3
     A5 --> Step3
     
-    Step3 --> Master["ANEXO_TECNICO_MESTRE_CONTRATO.md\n(Audited & Unified Technical Contract Annex)"]
+    Step3 --> Master["ANEXO_TECNICO_MESTRE_CONTRATO.md\n(Section 0: Quadro Sinóptico + 5 Consolidated Annexes)"]
 ```
 
 ---
 
-## 5. Global Engineering & Legal Rules
+## 5. Engineering Standards & Legal Shields (v1.2.0)
 
-### Rule 1: Substantivação do Escopo (Anti-Ambiguity)
-- Scope descriptions cannot use vague, unmeasurable action verbs.
-- Each deliverable must be formulated as an auditable technical noun (e.g., *"Responsive Web Interface for automated financial reconciliation with date filters, status toggles, and CSV streaming export"*).
+### 5.1 Dynamic Support for 3 Contracting Models in SOW
+The Statement of Work (SOW) dynamically renders Section 4 according to the commercial model:
+- **Modo A — Escopo Fechado (Fixed Price por Milestones):** Milestones (M0, M1, M2...) tied to physical staging deliverables and billing percentages.
+- **Modo B — Squad Dedicada / Time & Materials:** Allocated technical capacity grid (seniority, hours/month, sprint cadence, recurring monthly capacity billing).
+- **Modo C — Fase 0 (Inception Técnica Paga):** High-velocity architecture inception, clickable UX prototype, API integration spike, and refined MVP backlog.
 
-### Rule 2: Obrigatoriedade Taxativa do "Não-Escopo" (Out of Scope)
-The SOW must contain an explicit, non-negotiable list of contractual exclusions:
-1. Migration, cleansing, or remediation of legacy customer databases.
-2. Support for legacy browsers outside the 3 most recent versions of Google Chrome, Apple Safari, and Microsoft Edge.
-3. Cloud hosting fees (AWS/GCP/Azure) or 3rd-party API license invoices (OpenAI, payment gateways, messaging APIs).
-4. In-person onboarding or L1 technical end-user support.
+### 5.2 Foreground IP vs. Background IP
+- **Foreground IP (Suspensive Condition):** Assignment of proprietary rights over code specifically developed for the client is strictly conditioned on **100% full financial settlement** of all contract amounts and Change Requests.
+- **Background IP (Contractor Retention):** Pre-existing internal libraries, infrastructure modules (IaC), templates, frameworks, and boilerplates remain the exclusive property of the contractor, granting the client a perpetual, non-exclusive, non-transferable embedded license.
 
-### Rule 3: Inadmissibilidade de Aceite Subjetivo
-- Subjective acceptance criteria (e.g., *"clean look and feel"*, *"modern intuitive UX"*) are legally and technically null and void.
-- Homologation is strictly bound to verifiable acceptance criteria agreed upon in the milestone delivery sheets.
+### 5.3 LGPD Compliance in Engineering Environments
+- **Role Definition:** The Client is the **Controlador** (Data Controller) and the Contractor is strictly the technical **Operadora** (Data Processor).
+- **Production Data Ban:** Expressly bars the client from transmitting unanonymized production database dumps or real personal data (PII) to Development, QA, or Staging environments.
 
-### Rule 4: Cláusula Pétrea de Aceite Tácito (Deemed Acceptance)
-- The client receives a maximum window of **5 (five) business days** to conduct UAT in Staging.
-- If no detailed technical defect report is submitted within 5 business days, the milestone is **irrevocably deemed accepted**, authorizing immediate billing and milestone schedule progression.
+### 5.4 Pre-Flight Check with Smart Fallbacks
+- **Strict Block (`STATUS: BLOCKED_MISSING_PRECONDITIONS`):** Only triggered if fundamental structural functional scope or core architectural stack is absent.
+- **Non-Blocking Smart Fallbacks:** If secondary contract parameters are missing from pre-sales notes, the engine injects production-tested software house defaults and tracks them under `applied_defaults`:
+  - Staging Homologation Window: `5 business days`
+  - Client Response SLA (Freeze Trigger): `48 business hours`
+  - Technical Warranty: `60 calendar days`
+  - Change Request Rate: `[R$ VALOR_HORA_TECNICA_A_DEFINIR]`
+  - Client Product Owner: `[NOME_E_CARGO_DO_PO_A_DESIGNAR]`
 
-### Rule 5: Classificação Binária de Defeitos
-- Only **P1 (Blocker)** and **P2 (Critical without workaround)** can withhold milestone sign-off and billing.
-- **P3 (Major with workaround)** and **P4 (Cosmetic)** trigger milestone sign-off and payment release, with fixes scheduled for the next development sprint.
+### 5.5 Section 0: Quadro Sinóptico de Variáveis Contratuais
+`ANEXO_TECNICO_MESTRE_CONTRATO.md` starts with an executive synoptic table consolidating all legal-commercial variables (Parties, Contracting Mode, Schedule, Billing Milestones, CR Rate, UAT Window, Freeze SLA, Warranty, and Applied Defaults requiring legal ratification).
 
-### Rule 6: Não-Interrupção do Aceite Tácito por Instabilidade Legada do Cliente
-- Downtime, latency, schema breaks, or network failures in legacy sandboxes, ERPs, or APIs under client custody do **NOT** pause or extend the 5-day Deemed Acceptance window.
-- Contractor compliance is verified and approved autonomously via automated CI/CD test suites with mocks/stubs, releasing invoice billing for the milestone.
-
-### Rule 7: Separação de Obrigações Bilaterais, Schedule Freeze e Protocolo de Standby/Remobilização
-- Software development is an obligation of means requiring active client cooperation.
-- Client-side delays (>48h business hours) trigger an automatic day-for-day **Schedule Freeze** without penalties or liquidated damages against the contractor.
-- **Desmobilization & Remobilization:** If client delays exceed 10 business days, the contractor may reassign squad engineers to other productive work. Client resumption requires an up to **5 business day remobilization window** without mora. If the client demands exclusive standby during the freeze, an hourly/daily **Squad Standby Fee** is billed.
-
-### Rule 8: Reserva de Propriedade Intelectual (IP) Vinculada à Quitação Integral
-- Definitive transfer and assignment of intellectual property rights over source code, repositories, and technical deliverables are strictly conditioned upon **100% full financial settlement** of all project invoices and approved Change Requests.
-- Until full settlement, the client holds strictly a temporary, non-exclusive, revocable license for Staging UAT; commercial exploitation, sublicensing, or production deployment is barred.
-
-### Rule 9: Fronteira da Garantia vs. Sustentação (AMS)
-- Technical warranty (30 to 90 days) covers strictly latent defects in code authored by the contractor.
-- Third-party API changes, unauthorized client code modifications, and new business rules are categorically excluded. Any post-warranty intervention requires an autonomous AMS or Change Request agreement.
+### 5.6 Core Battle-Tested Safeguards
+- **Schedule Freeze & Standby Fee:** Delays > 48h freeze schedules 1:1. Delays > 10 business days authorize squad reallocation (5 business days remobilization window). Continuous readiness is billed as a Squad Standby Fee.
+- **Tacit Acceptance (Deemed Acceptance in 5 Days):** Client silence for 5 business days triggers irrevocable approval and payment release.
+- **Resilience to Client Legacy Outages:** Downtime of client legacy ERPs/sandboxes does **not** pause the 5-day acceptance clock. Contractor conformity is proven via CI/CD automated test suites and mocks.
+- **Zero WhatsApp Scope:** Strict ban on informal requests. Every modification requires a formal Change Request (CR) priced and signed prior to engineering execution.
 
 ---
 
-## 6. Guia de Instalação e Execução no Antigravity
+## 6. Installation & Execution Guide
 
-### 6.1 Instalação Global
+### 6.1 Global Installation
 
-Copie toda a pasta do plugin para o diretório de plugins globais do Antigravity:
+Copy the plugin directory to the Antigravity global plugin directory:
 
 ```bash
 mkdir -p ~/.antigravity/plugins/contract-technical-annexes-engine
 cp -r ./* ~/.antigravity/plugins/contract-technical-annexes-engine/
 ```
 
-Ou, caso utilize a configuração global padrão do Antigravity / Gemini CLI:
+Or, if using the Antigravity / Gemini CLI configuration path:
 
 ```bash
 mkdir -p ~/.gemini/config/plugins/contract-technical-annexes-engine-plugin
 cp -r ./* ~/.gemini/config/plugins/contract-technical-annexes-engine-plugin/
 ```
 
-### 6.2 Invocação Nativa via Slash Command
+### 6.2 Native Slash Command Invocation
 
-Com o plugin habilitado, execute diretamente na caixa de chat do Antigravity:
+Run directly in the Antigravity chat:
 
 ```bash
-/contract-generate-annexes dossier_path="DOSSIE_TECNICO_PRE_PROPOSTA.md" output_dir="./anexos_contratuais"
+/contract-annexes-orchestrator dossier_path="DOSSIE_TECNICO_PRE_PROPOSTA.md" output_dir="./anexos_contratuais"
 ```
 
-Ou via invocação semântica contextual:
+Or via contextual natural language invocation:
 > *"Gere os anexos técnicos do contrato a partir do arquivo DOSSIE_TECNICO_PRE_PROPOSTA.md"*
 
-### 6.3 Parâmetros de Execução
+### 6.3 Parameters
 
-| Parâmetro | Tipo | Obrigatório | Padrão | Descrição |
+| Parameter | Type | Required | Default | Description |
 | :--- | :---: | :---: | :--- | :--- |
-| `dossier_path` | string | Sim | `DOSSIE_TECNICO_PRE_PROPOSTA.md` | Caminho para o dossiê técnico consolidado da pré-venda. |
-| `output_dir` | string | Não | `./anexos_contratuais` | Diretório de destino dos artefatos Markdown gerados. |
-| `contract_params` | object | Não | `{}` | Metadados jurídicos (Razão Social, CNPJs, taxas de CR, prazos de garantia). |
+| `dossier_path` | string | Yes | `DOSSIE_TECNICO_PRE_PROPOSTA.md` | Path to upstream pre-sales technical dossier. |
+| `output_dir` | string | No | `./anexos_contratuais` | Destination folder for final Markdown annexes. |
+| `contract_params` | object | No | `{}` | Optional legal parameters (Company names, CNPJs, CR rate, warranty days). |
 
-### 6.4 Artefatos Produzidos no Diretório de Destino
+### 6.4 Produced Artifacts
 
-1. **`ANEXO_1_SOW.md`**: Declaração de Trabalho (SOW) com escopo discriminado em substantivos, matriz de não-escopo, NFRs, tabela de marcos vinculada ao faturamento e **reserva de IP até quitação de 100%**.
-2. **`ANEXO_2_RACI_PRE_REQUISITOS.md`**: Matriz RACI, designação de PO único, Cláusula Pétrea de Schedule Freeze, **desmobilização após 10 dias de freeze, janela de 5 dias de remobilização e Taxa de Standby da squad**.
-3. **`ANEXO_3_PROTOCOLO_HOMOLOGACAO.md`**: Procedimento formal de UAT em Staging, janela de 5 dias úteis com Aceite Tácito (*Deemed Acceptance*), taxonomia P1–P4 e **não-suspensão por instabilidade de APIs legadas do cliente**.
-4. **`ANEXO_4_CHANGE_REQUEST.md`**: Protocolo de governança de mudanças nos 3 eixos (Horas, Caminho Crítico e Custo) com proibição de instruções informais via chat.
-5. **`ANEXO_5_GARANTIA_SLA.md`**: Termo de Garantia Técnica (60 dias), tabela de SLA para incidentes (P1–P3) e transição para AMS.
-6. **`ANEXO_TECNICO_MESTRE_CONTRATO.md`**: Documento unificado, auditado por consistência cruzada nos 6 eixos, pronto para rubrica e vinculação ao contrato principal.
+In `{{output_dir}}`:
+- `ANEXO_1_SOW.md`: SOW with 3 contracting modes and Foreground/Background IP.
+- `ANEXO_2_RACI_PRE_REQUISITOS.md`: RACI, Schedule Freeze, Standby/Remobilization, and LGPD rules.
+- `ANEXO_3_PROTOCOLO_HOMOLOGACAO.md`: 5-day Tacit Acceptance, P1–P4 triage, legacy outage non-suspension.
+- `ANEXO_4_CHANGE_REQUEST.md`: Change management governance and hourly rate grid.
+- `ANEXO_5_GARANTIA_SLA.md`: 60-day warranty and clear AMS demarcation.
+- `ANEXO_TECNICO_MESTRE_CONTRATO.md`: Section 0 Quadro Sinóptico + all 5 unified annexes.
+
+Transitory handoff data is isolated in `{{output_dir}}/.scratch/normalized_project_baseline.json` (ignored by git).
 
 ---
 

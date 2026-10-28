@@ -1,6 +1,5 @@
 ---
-description: >-
-  Normas de engenharia para anexos técnicos vinculantes de software. Impõe substantivação do escopo, não-escopo obrigatório, proibição de aceite subjetivo, aceite tácito (deemed acceptance em 5 dias), classificação binária de defeitos (P1/P2 vs P3/P4) e não-interrupção do relógio de aceite por instabilidade de APIs legadas do cliente.
+description: Aplicar exclusivamente durante a elaboração, revisão ou auditoria de anexos técnicos contratuais de software (SOW, RACI, Homologação, Change Request, Garantia e SLA).
 trigger: model_decision
 ---
 
