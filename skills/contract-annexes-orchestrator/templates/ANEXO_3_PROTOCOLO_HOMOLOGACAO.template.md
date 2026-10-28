@@ -16,6 +16,9 @@
 | P3 - Médio | Falha pontual com procedimento alternativo viável | Não (corrige no ciclo seguinte) |
 | P4 - Cosmético | Desvios visuais leves, formatação ou textos | Não (corrige no ciclo seguinte) |
 
+<!-- Requisitos obrigatórios para reporte técnico de não-conformidade (URL/endpoint, payload, passos de reprodução e logs/evidências). -->
+{{REQUISITOS_EVIDENCIA_REPORTE_TECNICO}}
+
 ## 4. CLÁUSULA PÉTREA DE ACEITE TÁCITO (DEEMED ACCEPTANCE)
 <!-- Decurso do prazo de 5 dias úteis sem relatório técnico estruturado resulta em aprovação tácita irrevogável e autorização imediata de faturamento. -->
 {{CLAUSULA_ACEITE_TACITO}}

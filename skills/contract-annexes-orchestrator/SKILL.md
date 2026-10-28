@@ -29,6 +29,7 @@ A inteligência de orquestração reside inteiramente nas instruções deste doc
   - `ANEXO_5_GARANTIA_SLA.template.md`
 - **Injeção de Templates:** O modelo orquestrador deve ler o conteúdo do template correspondente da pasta da skill e injetá-lo no prompt de execução do subagente redator.
 - **Isolamento de Handoff Transitório:** O artefato intermediário de dados deve ser salvo em `{{output_dir}}/.scratch/normalized_project_baseline.json`. A pasta `.scratch/` é ignorada pelo controle de versão (`.gitignore`), garantindo que o diretório raiz de entrega `{{output_dir}}` permaneça limpo, contendo apenas os documentos finais.
+- **Higienização Estrita de Saída (.md):** Todos os agentes redatores e o auditor cruzado são instruídos a remover integralmente os comentários HTML (`<!-- ... -->`) originários dos templates e assegurar que nenhum placeholder no formato `{{...}}` permaneça exposto nos documentos finais.
 
 ---
 
@@ -78,28 +79,36 @@ Com a baseline aprovada em `.scratch/`, acione os subagentes redatores em parale
    - **Propriedade Intelectual (Seção 5):**
      - *Foreground IP:* Titularidade suspensivamente vinculada à quitação de 100% de todas as faturas contratuais.
      - *Background IP:* Titularidade exclusiva da Contratada sobre frameworks, bibliotecas e aceleradores de infraestrutura (IaC) pré-existentes, concedendo ao Cliente licença de uso perpétua e não-exclusiva.
+   - *Higienização:* Remoção de comentários HTML e resolução completa de placeholders.
 
 2. **`client-governance-drafter`** -> Redige `{{output_dir}}/ANEXO_2_RACI_PRE_REQUISITOS.md` com base em `skills/contract-annexes-orchestrator/templates/ANEXO_2_RACI_PRE_REQUISITOS.template.md`:
    - Designação do Product Owner (PO) único do Cliente.
    - Checklist prévio de acessos, credenciais, repositórios e sandboxes.
    - **Schedule Freeze:** Atrasos do cliente > 48h úteis congelam e prorrogam o cronograma 1:1 sem ônus.
-   - **Desmobilização e Standby:** Atrasos > 10 dias úteis autorizam desmobilização da equipe para outros projetos (janela de remobilização de 5 dias úteis sem mora). Standby contínuo faturado via Taxa de Standby.
+   - **Desmobilização e Standby:** Atrasos > 10 dias úteis autorizam desmobilização da equipe para outros projetos (janela de remobilização de 5 dias úteis sem mora). Standby contínuo faturado via Taxa de Standby da Squad (custo horário/diário proporcional integral dos profissionais retidos).
    - **Conformidade LGPD em Ambientes de Engenharia (Seção 5):** Cliente como Controlador e Contratada como Operadora técnica; vedação expressa ao fornecimento de dados reais de produção com dados pessoais (PII) sem anonimização irreversível prévia.
+   - *Higienização:* Remoção de comentários HTML e resolução completa de placeholders.
 
 3. **`acceptance-policy-drafter`** -> Redige `{{output_dir}}/ANEXO_3_PROTOCOLO_HOMOLOGACAO.md` com base em `skills/contract-annexes-orchestrator/templates/ANEXO_3_PROTOCOLO_HOMOLOGACAO.template.md`:
    - Homologação adstrita exclusivamente ao ambiente de Staging.
    - Janela de teste de 5 (cinco) dias úteis.
+   - **Adaptação por Modelo:**
+     - *Modo A:* Homologação por marcos M0..Mn.
+     - *Modo B:* Homologação por Sprint Review e Backlog da Sprint.
+     - *Modo C:* Homologação dos artefatos da inception (Documento de Arquitetura, PoC e Protótipo).
    - **Aceite Tácito (*Deemed Acceptance*):** Silêncio decorrido os 5 dias acarreta aprovação tácita irrevogável e liberação de faturamento.
-   - **Taxonomia P1-P4:** Retenção de faturamento restrita a bloqueios P1/P2; falhas cosméticas P3/P4 não retêm aceite nem faturamento.
+   - **Taxonomia P1-P4 e Evidência Obrigatória:** Retenção de faturamento restrita a P1/P2; falhas cosméticas P3/P4 não retêm aceite. Injeção obrigatória dos 4 requisitos de reporte técnico em `{{REQUISITOS_EVIDENCIA_REPORTE_TECNICO}}` (URL, payload, passos determinísticos de reprodução e logs/prints).
    - **Resiliência a Legados do Cliente:** Quedas ou instabilidades de APIs ou sandboxes legadas do Cliente NÃO suspendem o relógio do aceite tácito; evidências de conformidade são geradas via testes automatizados/mocks no CI/CD.
+   - *Higienização:* Remoção de comentários HTML e resolução completa de placeholders.
 
 4. **`risk-maintenance-drafter`** -> Redige `{{output_dir}}/ANEXO_4_CHANGE_REQUEST.md` e `{{output_dir}}/ANEXO_5_GARANTIA_SLA.md` com base nos respectivos templates:
-   - **Anexo 4:** Gestão de mudanças rigorosa; nulidade de acordos informais (WhatsApp, calls verbais); precificação e formalização prévias de qualquer CR.
-   - **Anexo 5:** Garantia técnica de 60 dias limitada a vícios no código-fonte autoral da Contratada; exclusão de falhas de infraestrutura externa ou APIs de terceiros; extinção do suporte gratuito e transição para AMS.
+   - **Anexo 4:** Gestão de mudanças formalizada nos 3 eixos (Horas, Prazo e Custo); nulidade de canais informais; adaptação no Modo B (CR restrito à expansão de capacidade da squad ou perfis técnicos).
+   - **Anexo 5:** Garantia técnica de 60 dias limitada a vícios ocultos do código autoral nos Modos A/B; adaptação no Modo C para revisão técnica documental e de artefatos de 15 dias, sem SLA de produção.
+   - *Higienização:* Remoção de comentários HTML e resolução completa de placeholders.
 
 ### Passo 3: Auditoria Cruzada e Compilação Mestre com Quadro Sinóptico (Fan-In)
 1. Acione o subagente `cross-auditor` fornecendo `{{output_dir}}/.scratch/normalized_project_baseline.json` e os 5 anexos gerados.
-2. O subagente audita harmonia técnica, consistência entre marcos e faturamento, purificação de termos subjetivos e todas as salvaguardas contratuais (IP, LGPD, Standby, Aceite Tácito).
+2. O subagente audita harmonia técnica, consistência entre marcos e faturamento, conformidade ao modelo comercial, presença da Taxa de Standby da Squad, higienização de comentários HTML e eliminação de placeholders brutos.
 3. Aprovada a auditoria, compila o arquivo **`{{output_dir}}/ANEXO_TECNICO_MESTRE_CONTRATO.md`**, iniciando com a **Seção 0 (Quadro Sinóptico de Variáveis Contratuais)** como espelho executivo para o contrato principal.
 
 ---
@@ -108,4 +117,5 @@ Com a baseline aprovada em `.scratch/`, acione os subagentes redatores em parale
 Apresente no chat:
 1. Resumo executivo dos 5 anexos gerados e do Documento Mestre consolidado.
 2. Tabela do Quadro Sinóptico de Variáveis Contratuais destacando os defaults que demandam ratificação comercial/jurídica.
-3. Caminho de todos os artefatos gerados em disco.
+3. Confirmação de higienização dos arquivos gerados (zero comentários HTML e zero placeholders expostos).
+4. Caminho de todos os artefatos gerados em disco.

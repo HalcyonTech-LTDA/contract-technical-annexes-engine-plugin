@@ -134,13 +134,15 @@ The Statement of Work (SOW) dynamically renders Section 4 according to the comme
   - Client Product Owner: `[NOME_E_CARGO_DO_PO_A_DESIGNAR]`
 
 ### 5.5 Section 0: Quadro Sinóptico de Variáveis Contratuais
-`ANEXO_TECNICO_MESTRE_CONTRATO.md` starts with an executive synoptic table consolidating all legal-commercial variables (Parties, Contracting Mode, Schedule, Billing Milestones, CR Rate, UAT Window, Freeze SLA, Warranty, and Applied Defaults requiring legal ratification).
+`ANEXO_TECNICO_MESTRE_CONTRATO.md` starts with an executive synoptic table consolidating all legal-commercial variables (Parties, Contracting Mode, Schedule, Billing Milestones, CR Rate, Squad Standby Fee, UAT Window, Freeze SLA, Warranty, and Applied Defaults requiring legal ratification).
 
-### 5.6 Core Battle-Tested Safeguards
-- **Schedule Freeze & Standby Fee:** Delays > 48h freeze schedules 1:1. Delays > 10 business days authorize squad reallocation (5 business days remobilization window). Continuous readiness is billed as a Squad Standby Fee.
-- **Tacit Acceptance (Deemed Acceptance in 5 Days):** Client silence for 5 business days triggers irrevocable approval and payment release.
+### 5.6 Core Battle-Tested Safeguards & Output Hygiene
+- **Schedule Freeze & Standby Fee:** Delays > 48h freeze schedules 1:1. Delays > 10 business days authorize squad reallocation (5 business days remobilization window). Forced readiness is billed as a **Squad Standby Fee** (the proportional hourly/daily cost of professionals kept on standby).
+- **Tacit Acceptance (Deemed Acceptance in 5 Days):** Client silence for 5 business days triggers irrevocable approval and payment release. In Modo B, applies to Sprint deliverables; in Modo C, applies to Inception artifacts.
+- **Mandatory Defect Evidence:** Any reported defect must include the exact URL/endpoint, payload, deterministic reproduction steps, and console/network logs (`{{REQUISITOS_EVIDENCIA_REPORTE_TECNICO}}`).
 - **Resilience to Client Legacy Outages:** Downtime of client legacy ERPs/sandboxes does **not** pause the 5-day acceptance clock. Contractor conformity is proven via CI/CD automated test suites and mocks.
 - **Zero WhatsApp Scope:** Strict ban on informal requests. Every modification requires a formal Change Request (CR) priced and signed prior to engineering execution.
+- **Strict Output Hygiene:** All template HTML comments (`<!-- ... -->`) are stripped, and all placeholders (`{{...}}`) must be fully rendered with substantive legal-engineering text.
 
 ---
 
