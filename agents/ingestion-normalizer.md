@@ -31,8 +31,8 @@ Havendo bloqueio, liste com precisão cirúrgica as lacunas estruturais que impe
 ### 2. Fallbacks Padrão da Software House (Não-Bloqueante):
 Caso o dossiê omita variáveis paramétricas contratuais secundárias, **NÃO ABORTE A ESTEIRA**. Em vez disso, injete os valores padrão estabelecidos pelas normas da software house e registre-os no array `applied_defaults` do JSON de baseline:
 - **Janela de Homologação em Staging:** `5 dias úteis`
-- **SLA de Resposta do Cliente (Schedule Freeze):** `48 horas úteis`
-- **Período de Garantia Técnica Pós-Go-Live:** `60 dias corridos`
+- **SLA de Resposta do Cliente (Schedule Freeze):** `até 2 dias úteis de expediente comercial (16 horas úteis de expediente)`
+- **Período de Garantia Técnica:** `60 dias corridos a contar do Aceite Definitivo ou Go-Live (o que ocorrer primeiro)`
 - **Taxa Horária para Change Requests:** `[R$ VALOR_HORA_TECNICA_A_DEFINIR]`
 - **Interlocutor Oficial (PO do Cliente):** `[NOME_E_CARGO_DO_PO_A_DESIGNAR]`
 
