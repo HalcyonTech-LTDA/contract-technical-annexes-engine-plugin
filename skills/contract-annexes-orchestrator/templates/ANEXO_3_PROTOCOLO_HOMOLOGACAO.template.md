@@ -4,9 +4,11 @@
 <!-- Proibição expressa de validação em ambiente de desenvolvimento local ou em produção. -->
 {{AMBIENTE_HOMOLOGADO_STAGING}}
 
-## 2. JANELA DE INSPEÇÃO
-<!-- Prazo improrrogável de 5 (cinco) dias úteis após disponibilização do marco. -->
-{{JANELA_INSPECAO_5_DIAS}}
+## 2. JANELA DE INSPEÇÃO, RETESTE E CANAL EXCLUSIVO DO PRODUCT OWNER
+<!-- Prazo improrrogável de 5 (cinco) dias úteis para homologação do marco após sua disponibilização formal em Staging.
+     Janela de Reteste: Disponibilizada a correção de apontamento impeditivo (P1/P2), abre-se janela de reteste de até 2 (dois) dias úteis, adstrita exclusivamente à validação do defeito corrigido, vedando-se expressamente a reabertura de testes em fluxos já homologados.
+     Consolidação Exclusiva pelo PO: Reportes de inconsistência só são aceitos quando consolidados e formalizados exclusivamente pelo PO titular (ou suplente nomeado no Anexo 2). -->
+{{JANELA_INSPECAO_RETESTE_PO}}
 
 ## 3. TAXONOMIA DE DEFEITOS E GATILHOS DE FATURAMENTO
 | Nível | Descrição Técnica | Bloqueia Aceite / Faturamento? |
@@ -16,7 +18,7 @@
 | P3 - Médio | Falha pontual com procedimento alternativo viável | Não (corrige no ciclo seguinte) |
 | P4 - Cosmético | Desvios visuais leves, formatação ou textos | Não (corrige no ciclo seguinte) |
 
-<!-- Requisitos obrigatórios para reporte técnico de não-conformidade (URL/endpoint, payload, passos de reprodução e logs/evidências). -->
+<!-- Requisitos obrigatórios para reporte técnico de não-conformidade formalizado pelo PO: (1) URL/endpoint exato afetado; (2) Payload ou parâmetros de requisição; (3) Passos determinísticos de reprodução; (4) Evidências técnicas completas (prints, gravações de tela e/ou logs de console e rede); e (5) Versão exata do navegador, sistema operacional e dispositivo/resolução testados. -->
 {{REQUISITOS_EVIDENCIA_REPORTE_TECNICO}}
 
 ## 4. CLÁUSULA PÉTREA DE ACEITE TÁCITO (DEEMED ACCEPTANCE)

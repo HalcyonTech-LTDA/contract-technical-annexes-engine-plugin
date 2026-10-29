@@ -5,7 +5,7 @@
 {{ESCOPO_FUNCIONAL_DISCRIMINADO}}
 
 ## 2. ESCOPO EXPRESSAMENTE NÃO CONTEMPLADO (OUT OF SCOPE)
-<!-- Exclusões taxativas obrigatórias: migração/saneamento de dados legados, suporte a browsers legados, faturamento de infraestrutura em nuvem, treinamento presencial de ponta a ponta. -->
+<!-- Exclusões taxativas obrigatórias: migração/saneamento de dados legados, suporte a browsers legados, faturamento de infraestrutura em nuvem, treinamento presencial de ponta a ponta, desenvolvimento/publicação de aplicativos móveis nativos (iOS/Android) e custos/taxas de gateways de pagamento ou mensageria. -->
 {{MATRIZ_NAO_ESCOPO}}
 
 ## 3. BASELINE ARQUITETURAL E REQUISITOS NÃO-FUNCIONAIS (NFRS)
@@ -46,7 +46,14 @@
 | Sem 3-4 | Protótipo Alta Fidelidade e Backlog Refinado | Protótipo navegável aprovado e Backlog detalhado | 50% |
 -->
 
-## 5. PROPRIEDADE INTELECTUAL E LICENCIAMENTO DE ATIVOS PRÉ-EXISTENTES (FOREGROUND IP VS. BACKGROUND IP)
+## 5. PREMISSAS TÉCNICAS ESTRUTURAIS CONDICIONANTES
+<!-- Premissas técnicas e operacionais sob custódia do Cliente ou de terceiros que condicionam diretamente o cronograma, dimensionamento e critérios de aceite da SOW:
+     1. Latência e Performance de APIs de Terceiros: Tempo de resposta p95 inferior a 500ms em todas as rotas integradas;
+     2. Estabilidade de Ambientes e Sandboxes Legadas: Disponibilidade e estabilidade contínua de sandboxes funcionais para testes de integração;
+     3. Disponibilidade de Documentação Técnica: Disponibilidade de contratos de interface, documentação técnica e especificações OpenAPI/Swagger válidas e atualizadas. -->
+{{PREMISSAS_TECNICAS_ESTRUTURAIS_CONDICIONANTES}}
+
+## 6. PROPRIEDADE INTELECTUAL E LICENCIAMENTO DE ATIVOS PRÉ-EXISTENTES (FOREGROUND IP VS. BACKGROUND IP)
 <!--
 1. Condição Suspensiva de Titularidade (Foreground IP): A cessão patrimonial do código-fonte desenvolvido especificamente sob encomenda para o Cliente somente se aperfeiçoa após a quitação integral de 100% dos valores pactuados no contrato. Até lá, vigora apenas licença precária de homologação em Staging.
 2. Reserva de Background IP (Aceleradores da Contratada): Bibliotecas internas, módulos genéricos de autenticação/infraestrutura (IaC), boilerplates, frameworks e ferramentas pré-existentes da software house permanecem de propriedade exclusiva da Contratada, concedendo-se ao Cliente licença de uso perpétua, não-exclusiva e intransferível embutida na solução entregue.
