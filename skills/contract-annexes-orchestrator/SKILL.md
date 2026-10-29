@@ -60,8 +60,8 @@ A inteligência de orquestração reside inteiramente nas instruções deste doc
    - **Bloqueio Estrito (`STATUS: BLOCKED_MISSING_PRECONDITIONS`):** Interrompa imediatamente a esteira SOMENTE se o dossiê omitir o escopo funcional mínimo estrutural ou a definição básica de arquitetura técnica. Notifique o usuário dos requisitos faltantes.
    - **Fallbacks Padrão Inteligentes:** Se faltarem variáveis comerciais secundárias, o normalizador NÃO aborta; injeta os defaults contratuais padrão da software house no JSON e registra a lista `applied_defaults`:
      - Janela de Homologação em Staging: `5 dias úteis`
-     - SLA de Resposta do Cliente: `48 horas úteis`
-     - Garantia Técnica: `60 dias corridos`
+     - SLA de Resposta do Cliente: `até 2 dias úteis de expediente comercial (16 horas úteis de expediente)`
+     - Garantia Técnica: `60 dias corridos a contar do Aceite Definitivo ou Go-Live (o que ocorrer primeiro)`
      - Taxa Horária de CR: `[R$ VALOR_HORA_TECNICA_A_DEFINIR]`
      - PO do Cliente: `[NOME_E_CARGO_DO_PO_A_DESIGNAR]`
 4. O subagente grava a baseline canônica em `{{output_dir}}/.scratch/normalized_project_baseline.json`.
@@ -71,44 +71,43 @@ Com a baseline aprovada em `.scratch/`, acione os subagentes redatores em parale
 
 1. **`sow-architect`** -> Redige `{{output_dir}}/ANEXO_1_SOW.md` com base em `skills/contract-annexes-orchestrator/templates/ANEXO_1_SOW.template.md`:
    - Substantivação do escopo (módulos entregáveis, zero ambiguidades).
-   - Não-Escopo explícito e taxativo (migração de banco legado, browsers obsoletos, contas de terceiros, suporte presencial).
+   - Não-Escopo explícito e taxativo (migração de banco legado, browsers obsoletos, contas de terceiros, suporte presencial, apps móveis nativos e taxas transacionais de gateways/mensageria).
    - **Modelo de Contratação Dinâmico (Seção 4):**
      - *Modo A (Fixed Price por Milestones):* Marcos M0..Mn vinculados a entregáveis físicos e percentuais de faturamento.
      - *Modo B (Squad Dedicada / Time & Materials):* Tabela de capacidade técnica alocada (seniores/plenos), horas/mês e faturamento por capacidade.
      - *Modo C (Fase 0 / Inception Técnica Paga):* Cronograma ágil de discovery técnico, protótipo navegável, POC e backlog refinado.
-   - **Propriedade Intelectual (Seção 5):**
+   - **Premissas Técnicas Estruturais Condicionantes (Seção 5):** Latência de APIs terceiras < 500ms p95, estabilidade de sandboxes legadas e documentação Swagger válida.
+   - **Propriedade Intelectual (Seção 6):**
      - *Foreground IP:* Titularidade suspensivamente vinculada à quitação de 100% de todas as faturas contratuais.
      - *Background IP:* Titularidade exclusiva da Contratada sobre frameworks, bibliotecas e aceleradores de infraestrutura (IaC) pré-existentes, concedendo ao Cliente licença de uso perpétua e não-exclusiva.
    - *Higienização:* Remoção de comentários HTML e resolução completa de placeholders.
 
 2. **`client-governance-drafter`** -> Redige `{{output_dir}}/ANEXO_2_RACI_PRE_REQUISITOS.md` com base em `skills/contract-annexes-orchestrator/templates/ANEXO_2_RACI_PRE_REQUISITOS.template.md`:
    - Designação do Product Owner (PO) único do Cliente.
-   - Checklist prévio de acessos, credenciais, repositórios e sandboxes.
-   - **Schedule Freeze:** Atrasos do cliente > 48h úteis congelam e prorrogam o cronograma 1:1 sem ônus.
-   - **Desmobilização e Standby:** Atrasos > 10 dias úteis autorizam desmobilização da equipe para outros projetos (janela de remobilização de 5 dias úteis sem mora). Standby contínuo faturado via Taxa de Standby da Squad (custo horário/diário proporcional integral dos profissionais retidos).
-   - **Conformidade LGPD em Ambientes de Engenharia (Seção 5):** Cliente como Controlador e Contratada como Operadora técnica; vedação expressa ao fornecimento de dados reais de produção com dados pessoais (PII) sem anonimização irreversível prévia.
+   - **Matriz RACI Bilateral (Seção 2):** Mapeamento formal R/A/C/I para os 7 eventos-chave de engenharia.
+   - **Gate Zero / Marco Zero (Seção 3):** Condição precedente de eficácia do cronograma mediante assinatura mútua do Termo de Liberação Integral de Acessos e Ambientes.
+   - **Schedule Freeze (Seção 4):** Atrasos do cliente > 2 dias úteis de expediente comercial (16h úteis) congelam e prorrogam o cronograma 1:1 sem ônus.
+   - **Desmobilização e Standby (Seção 5):** Atrasos > 10 dias úteis autorizam desmobilização da equipe para outros projetos (janela de remobilização de 5 dias úteis sem mora). Standby contínuo faturado via Taxa de Standby da Squad (custo horário/diário proporcional integral dos profissionais retidos).
+   - **Conformidade LGPD em Ambientes de Engenharia (Seção 6):** Cliente como Controlador e Contratada como Operadora técnica; vedação expressa ao fornecimento de dados reais de produção com dados pessoais (PII) sem anonimização irreversível prévia.
    - *Higienização:* Remoção de comentários HTML e resolução completa de placeholders.
 
 3. **`acceptance-policy-drafter`** -> Redige `{{output_dir}}/ANEXO_3_PROTOCOLO_HOMOLOGACAO.md` com base em `skills/contract-annexes-orchestrator/templates/ANEXO_3_PROTOCOLO_HOMOLOGACAO.template.md`:
    - Homologação adstrita exclusivamente ao ambiente de Staging.
-   - Janela de teste de 5 (cinco) dias úteis.
-   - **Adaptação por Modelo:**
-     - *Modo A:* Homologação por marcos M0..Mn.
-     - *Modo B:* Homologação por Sprint Review e Backlog da Sprint.
-     - *Modo C:* Homologação dos artefatos da inception (Documento de Arquitetura, PoC e Protótipo).
+   - Janela de teste de 5 (cinco) dias úteis com **Janela de Reteste de até 2 (dois) dias úteis** adstrita exclusivamente à validação do defeito corrigido (sem reabertura de fluxos homologados).
+   - Reportes aceitos e formalizados exclusivamente pelo PO titular ou suplente.
+   - **Taxonomia P1-P4 e Evidência Técnica Expandida:** Retenção de faturamento restrita a P1/P2; falhas cosméticas P3/P4 não retêm aceite. Injeção obrigatória dos 5 requisitos de reporte técnico em `{{REQUISITOS_EVIDENCIA_REPORTE_TECNICO}}` (URL, payload, passos determinísticos de reprodução, logs/prints e versão de navegador, SO e resolução).
    - **Aceite Tácito (*Deemed Acceptance*):** Silêncio decorrido os 5 dias acarreta aprovação tácita irrevogável e liberação de faturamento.
-   - **Taxonomia P1-P4 e Evidência Obrigatória:** Retenção de faturamento restrita a P1/P2; falhas cosméticas P3/P4 não retêm aceite. Injeção obrigatória dos 4 requisitos de reporte técnico em `{{REQUISITOS_EVIDENCIA_REPORTE_TECNICO}}` (URL, payload, passos determinísticos de reprodução e logs/prints).
-   - **Resiliência a Legados do Cliente:** Quedas ou instabilidades de APIs ou sandboxes legadas do Cliente NÃO suspendem o relógio do aceite tácito; evidências de conformidade são geradas via testes automatizados/mocks no CI/CD.
+   - **Resiliência a Legados do Cliente:** Quedas ou instabilidades de APIs ou sandboxes legadas do Cliente NÃO suspendem o relógio do aceite tácito; conformidade comprovada via testes automatizados/mocks no CI/CD.
    - *Higienização:* Remoção de comentários HTML e resolução completa de placeholders.
 
 4. **`risk-maintenance-drafter`** -> Redige `{{output_dir}}/ANEXO_4_CHANGE_REQUEST.md` e `{{output_dir}}/ANEXO_5_GARANTIA_SLA.md` com base nos respectivos templates:
-   - **Anexo 4:** Gestão de mudanças formalizada nos 3 eixos (Horas, Prazo e Custo); nulidade de canais informais; adaptação no Modo B (CR restrito à expansão de capacidade da squad ou perfis técnicos).
-   - **Anexo 5:** Garantia técnica de 60 dias limitada a vícios ocultos do código autoral nos Modos A/B; adaptação no Modo C para revisão técnica documental e de artefatos de 15 dias, sem SLA de produção.
+   - **Anexo 4:** Fatores geradores de mudança tipificados nos 3 gatilhos formais; princípio da continuidade do escopo corrente; deliberação em até 3 dias úteis pelo Cliente com validade de 10 dias corridos sob pena de cancelamento automático; Formulário Padrão de Solicitação e Aditivo de Mudança nos 3 eixos (Horas, Prazo e Custo); nulidade de canais informais; adaptação no Modo B.
+   - **Anexo 5:** Garantia técnica de 60 dias a contar do Aceite Definitivo ou Go-Live (o que ocorrer primeiro) limitada a vícios ocultos do código autoral nos Modos A/B; exclusões expressas adicionais (erros operacionais de usuários e corrupção manual de BD); horário de suporte em dias úteis das 09h00 às 18h00 via canal oficial e SLA P3 de até 40h úteis; adaptação no Modo C para revisão técnica documental e de artefatos de 15 dias, sem SLA de produção.
    - *Higienização:* Remoção de comentários HTML e resolução completa de placeholders.
 
 ### Passo 3: Auditoria Cruzada e Compilação Mestre com Quadro Sinóptico (Fan-In)
 1. Acione o subagente `cross-auditor` fornecendo `{{output_dir}}/.scratch/normalized_project_baseline.json` e os 5 anexos gerados.
-2. O subagente audita harmonia técnica, consistência entre marcos e faturamento, conformidade ao modelo comercial, presença da Taxa de Standby da Squad, higienização de comentários HTML e eliminação de placeholders brutos.
+2. O subagente audita harmonia técnica, consistência entre marcos e faturamento, conformidade ao modelo comercial, presença do Gate Zero, preenchimento da Matriz RACI bilateral de 7 eventos, Janela de Reteste de até 2 dias úteis, prazos de deliberação (3 dias) e Formulário Padrão de CR, marco inicial duplo da garantia e horário de atendimento de suporte (09h-18h), presença da Taxa de Standby da Squad, higienização de comentários HTML e eliminação de placeholders brutos.
 3. Aprovada a auditoria, compila o arquivo **`{{output_dir}}/ANEXO_TECNICO_MESTRE_CONTRATO.md`**, iniciando com a **Seção 0 (Quadro Sinóptico de Variáveis Contratuais)** como espelho executivo para o contrato principal.
 
 ---
