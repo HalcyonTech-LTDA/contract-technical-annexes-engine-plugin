@@ -1,18 +1,36 @@
 <div align="center">
 
-# Contract Technical Annexes Engine Plugin
-### Global Multi-Agent Engineering Pipeline for Binding Software Contract Technical Annexes
+# Contract Technical Annexes Engine Plugin Plugin
+### Enterprise Multi-Agent Pipeline for Contract Technical Annexes Generation
 
-[![Antigravity Plugin](https://img.shields.io/badge/Antigravity-Plugin%20v1.2.0-4F46E5.svg)](https://antigravity.google)
-[![Architecture: Native Skill DAG](https://img.shields.io/badge/Architecture-Native%20Skill%20Orchestrator-06B6D4.svg)](#4-multi-agent-dag-pipeline-architecture)
+[![Antigravity Plugin](https://img.shields.io/badge/Antigravity-Plugin%20v1.0.0-4F46E5.svg)](https://antigravity.google)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10B981.svg)](./LICENSE)
-[![Zero-Slides Enforced](https://img.shields.io/badge/Output-Dense%20Auditable%20Markdown-F59E0B.svg)](#2-critical-negative-constraints-zero-slides--zero-vagueness)
+[![Organization](https://img.shields.io/badge/Organization-HalcyonTech--LTDA-black.svg)](https://github.com/HalcyonTech-LTDA)
 
 <p align="center">
-  <b>Transform the pre-sales engineering dossier (<code>DOSSIE_TECNICO_PRE_PROPOSTA.md</code>) and contractual parameters into 5 binding, auditable technical annexes for enterprise software engineering service contracts.</b>
+  <b>Pipeline agêntico nativo para geração de anexos técnicos vinculantes (SOW, RACI, Homologação, CR e SLA) para contratos de prestação de serviços de software a partir de dossiês de pré-venda.</b>
 </p>
 
 </div>
+
+---
+
+## Installation & Verification
+
+### Antigravity CLI (`agy`)
+
+Install directly into your Antigravity environment via the CLI:
+
+```bash
+agy plugin install https://github.com/HalcyonTech-LTDA/contract-technical-annexes-engine-plugin
+```
+
+Verify that the plugin is active and adheres to the strict official schema:
+
+```bash
+agy plugin list
+agy plugin validate --strict ./contract-technical-annexes-engine-plugin
+```
 
 ---
 
@@ -31,6 +49,8 @@ By ingesting the consolidated pre-sales engineering dossier (`DOSSIE_TECNICO_PRE
 
 ---
 
+---
+
 ## 2. Critical Negative Constraints: Zero Slides & Zero Vagueness
 
 > [!CAUTION]
@@ -40,37 +60,6 @@ By ingesting the consolidated pre-sales engineering dossier (`DOSSIE_TECNICO_PRE
 > 3. **Anti-Generalization Invariant:** Minutas must avoid vague legalese that obscures technical reality. Every technical dependency, API threshold, and defect class must be explicit.
 
 ---
-
-## 3. Directory Structure (Antigravity v1.2.0 Compliant)
-
-All contract templates are securely encapsulated inside the orchestrating skill folder for global, project-independent execution:
-
-```
-contract-technical-annexes-engine/
-├── plugin.json
-├── README.md
-├── LICENSE
-├── .gitignore
-├── rules/
-│   ├── contract-engineering-standards.md
-│   └── legal-technical-boundaries.md
-├── skills/
-│   └── contract-annexes-orchestrator/
-│       ├── SKILL.md
-│       └── templates/
-│           ├── ANEXO_1_SOW.template.md
-│           ├── ANEXO_2_RACI_PRE_REQUISITOS.template.md
-│           ├── ANEXO_3_PROTOCOLO_HOMOLOGACAO.template.md
-│           ├── ANEXO_4_CHANGE_REQUEST.template.md
-│           └── ANEXO_5_GARANTIA_SLA.template.md
-└── agents/
-    ├── ingestion-normalizer.md
-    ├── sow-architect.md
-    ├── client-governance-drafter.md
-    ├── acceptance-policy-drafter.md
-    ├── risk-maintenance-drafter.md
-    └── cross-auditor.md
-```
 
 ---
 
@@ -105,6 +94,8 @@ flowchart TD
     
     Step3 --> Master["ANEXO_TECNICO_MESTRE_CONTRATO.md\n(Section 0: Quadro Sinóptico + 5 Consolidated Annexes)"]
 ```
+
+---
 
 ---
 
@@ -148,59 +139,69 @@ The Statement of Work (SOW) dynamically renders Section 4 according to the comme
 
 ---
 
-## 6. Installation & Execution Guide
+---
 
-### 6.1 Global Installation
+## What's Included (Component Catalog)
 
-Copy the plugin directory to the Antigravity global plugin directory:
+### Contextual Rules (`rules/`)
+Automatically loaded to govern and protect project contexts:
+- **[`contract-engineering-standards.md`](rules/contract-engineering-standards.md)**: Aplicar exclusivamente durante a elaboração, revisão ou auditoria de anexos técnicos contratuais de software (SOW, RACI, Homologação, Change Request, Garantia e SLA).
+- **[`legal-technical-boundaries.md`](rules/legal-technical-boundaries.md)**: Aplicar exclusivamente durante a elaboração, revisão ou auditoria de anexos técnicos contratuais de software (SOW, RACI, Homologação, Change Request, Garantia e SLA).
 
-```bash
-mkdir -p ~/.antigravity/plugins/contract-technical-annexes-engine
-cp -r ./* ~/.antigravity/plugins/contract-technical-annexes-engine/
-```
+### Procedural Skills (`skills/`)
+On-demand actionable workflows and runbooks:
+- **[`/contract-annexes-orchestrator`](skills/contract-annexes-orchestrator/SKILL.md)**: Orquestra a esteira agêntica (DAG) de engenharia para transformar o dossiê técnico de pré-venda (DOSSIE_TECNICO_PRE_PROPOSTA.md) nos 5 anexos técnicos vinculantes (SOW, RACI, Homologação, CR e SLA) e no Documento Mestre Unificado (ANEXO_TECNICO_MESTRE_CONTRATO.md).
 
-Or, if using the Antigravity / Gemini CLI configuration path:
-
-```bash
-mkdir -p ~/.gemini/config/plugins/contract-technical-annexes-engine-plugin
-cp -r ./* ~/.gemini/config/plugins/contract-technical-annexes-engine-plugin/
-```
-
-### 6.2 Native Slash Command Invocation
-
-Run directly in the Antigravity chat:
-
-```bash
-/contract-annexes-orchestrator dossier_path="DOSSIE_TECNICO_PRE_PROPOSTA.md" output_dir="./anexos_contratuais"
-```
-
-Or via contextual natural language invocation:
-> *"Gere os anexos técnicos do contrato a partir do arquivo DOSSIE_TECNICO_PRE_PROPOSTA.md"*
-
-### 6.3 Parameters
-
-| Parameter | Type | Required | Default | Description |
-| :--- | :---: | :---: | :--- | :--- |
-| `dossier_path` | string | Yes | `DOSSIE_TECNICO_PRE_PROPOSTA.md` | Path to upstream pre-sales technical dossier. |
-| `output_dir` | string | No | `./anexos_contratuais` | Destination folder for final Markdown annexes. |
-| `contract_params` | object | No | `{}` | Optional legal parameters (Company names, CNPJs, CR rate, warranty days). |
-
-### 6.4 Produced Artifacts
-
-In `{{output_dir}}`:
-- `ANEXO_1_SOW.md`: SOW with 3 contracting modes and Foreground/Background IP.
-- `ANEXO_2_RACI_PRE_REQUISITOS.md`: RACI, Schedule Freeze, Standby/Remobilization, and LGPD rules.
-- `ANEXO_3_PROTOCOLO_HOMOLOGACAO.md`: 5-day Tacit Acceptance, P1–P4 triage, legacy outage non-suspension.
-- `ANEXO_4_CHANGE_REQUEST.md`: Change management governance and hourly rate grid.
-- `ANEXO_5_GARANTIA_SLA.md`: 60-day warranty and clear AMS demarcation.
-- `ANEXO_TECNICO_MESTRE_CONTRATO.md`: Section 0 Quadro Sinóptico + all 5 unified annexes.
-
-Transitory handoff data is isolated in `{{output_dir}}/.scratch/normalized_project_baseline.json` (ignored by git).
+### Specialized Subagents (`agents/`)
+Autonomous personas delegated for in-depth execution:
+- **[`acceptance-policy-drafter`](agents/acceptance-policy-drafter.md)**: Redige o Anexo 3 (Protocolo de Homologação e Critérios de Aceite), definindo ambiente de Staging, janela de testes, taxonomia P1-P4, cláusula pétrea de aceite tácito e presunção de conformidade.
+- **[`client-governance-drafter`](agents/client-governance-drafter.md)**: Redige o Anexo 2 (Matriz RACI e Pré-requisitos), detalhando a matriz bilateral de engenharia, Gate Zero, delimitação do Product Owner, conformidade LGPD (Controlador vs Operador) e cláusula de Schedule Freeze.
+- **[`cross-auditor`](agents/cross-auditor.md)**: Executa a auditoria cruzada entre todos os 5 anexos gerados, elimina inconsistências e compila o Documento Mestre Unificado (ANEXO_TECNICO_MESTRE_CONTRATO.md).
+- **[`ingestion-normalizer`](agents/ingestion-normalizer.md)**: Analisa o dossiê técnico de pré-venda, valida a completude das premissas e normaliza os dados de escopo, riscos, prazos e stack técnica, aplicando fallbacks inteligentes.
+- **[`risk-maintenance-drafter`](agents/risk-maintenance-drafter.md)**: Redige os Anexos 4 (Gestão de Mudanças - CR) e 5 (Termo de Garantia, SLA e Sustentação), blindando contra escopo informal e suporte perpétuo gratuito.
+- **[`sow-architect`](agents/sow-architect.md)**: Redige o Anexo 1 (Statement of Work), detalhando o escopo por entregáveis auditáveis, a lista taxativa de não-escopo, requisitos não-funcionais, modelo de contratação, premissas estruturais condicionantes e propriedade intelectual (Foreground vs Background IP).
 
 ---
 
-## 7. License & Credits
+## Directory Hierarchy
 
-- **Author:** Engineering Architecture Office / HalcyonTech-LTDA
-- **Organization:** [HalcyonTech-LTDA](https://github.com/HalcyonTech-LTDA)
-- **License:** [MIT](./LICENSE)
+```text
+contract-technical-annexes-engine-plugin/
+├── plugin.json              # Official Antigravity manifest (schema v1)
+├── LICENSE                  # MIT License (Copyright 2026 HalcyonTech LTDA)
+├── .gitignore               # System ignores & installed_version.json exclusions
+├── .gitattributes           # Deterministic line endings (* text=auto eol=lf)
+├── README.md                # Golden Standard documentation & runbook
+├── assets/
+│   └── logo.svg             # Official Halcyon Tech corporate vector symbol
+├── rules/                   # Contextual rules discovered automatically
+│   └── contract-engineering-standards.md
+│   └── legal-technical-boundaries.md
+├── skills/                  # Actionable procedural skills (Progressive Disclosure)
+│   └── contract-annexes-orchestrator/
+│       └── SKILL.md
+└── agents/                  # Specialized autonomous subagents
+    └── acceptance-policy-drafter.md
+    └── client-governance-drafter.md
+    └── cross-auditor.md
+    └── ingestion-normalizer.md
+    └── risk-maintenance-drafter.md
+    └── sow-architect.md
+```
+
+---
+
+## 💡 Prompt Recipes & Use Cases
+
+```markdown
+- "Estruture os anexos técnicos contratuais (SOW, RACI, Homologação, CR e SLA)"
+- "Audite as cláusulas e salvaguardas contratuais contra riscos de entrega"
+- "Gere o documento consolidado ANEXO_TECNICO_MESTRE_CONTRATO.md"
+```
+
+---
+
+## 📄 License & Corporate Governance
+
+Distributed under the **MIT License**. Copyright (c) 2026 **HalcyonTech LTDA**.  
+Engineered with precision and excellence by [Halcyon Tech](https://github.com/HalcyonTech-LTDA).
