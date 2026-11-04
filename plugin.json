@@ -1,21 +1,23 @@
 {
   "name": "contract-technical-annexes-engine",
-  "version": "1.2.0",
+  "version": "1.0.0",
   "description": "Pipeline agêntico nativo para geração de anexos técnicos vinculantes (SOW, RACI, Homologação, CR e SLA) para contratos de prestação de serviços de software a partir de dossiês de pré-venda.",
-  "author": "Engineering Architecture Office",
+  "author": {
+    "name": "Halcyon Tech",
+    "url": "https://github.com/HalcyonTech-LTDA"
+  },
   "skills": [
     "skills/contract-annexes-orchestrator"
   ],
-  "agents": [
-    "agents/ingestion-normalizer.md",
-    "agents/sow-architect.md",
-    "agents/client-governance-drafter.md",
-    "agents/acceptance-policy-drafter.md",
-    "agents/risk-maintenance-drafter.md",
-    "agents/cross-auditor.md"
-  ],
-  "rules": [
-    "rules/contract-engineering-standards.md",
-    "rules/legal-technical-boundaries.md"
+  "$schema": "https://antigravity.google/schemas/v1/plugin.json",
+  "displayName": "Contract Technical Annexes Engine Plugin",
+  "homepage": "https://github.com/HalcyonTech-LTDA/contract-technical-annexes-engine-plugin",
+  "repository": "https://github.com/HalcyonTech-LTDA/contract-technical-annexes-engine-plugin",
+  "license": "MIT",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "Estruture os anexos técnicos contratuais (SOW, RACI, Homologação, CR e SLA)",
+    "Audite as cláusulas e salvaguardas contratuais contra riscos de entrega",
+    "Gere o documento consolidado ANEXO_TECNICO_MESTRE_CONTRATO.md"
   ]
 }
